@@ -22,11 +22,29 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     console.log('📝 Booking API called')
+    
+    // Check if MongoDB URI is configured
+    if (!process.env.MONGODB_URI) {
+      console.error('❌ MONGODB_URI not configured')
+      return NextResponse.json(
+        { success: false, error: 'Database not configured. Please contact administrator.' },
+        { status: 500 }
+      )
+    }
+    
     await connectDB()
     console.log('✅ MongoDB connected')
     
     const body = await request.json()
-    console.log('📋 Request body:', body)
+    console.log('📋 Request body:', JSON.stringify(body, null, 2))
+
+    // Validate required fields
+    if (!body.fullName || !body.email || !body.phone) {
+      return NextResponse.json(
+        { success: false, error: 'Missing required fields' },
+        { status: 400 }
+      )
+    }
 
     // Create booking in database
     const booking = await Booking.create(body)
@@ -58,13 +76,19 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       success: true, 
-      data: booking
+      data: booking,
+      message: 'Booking created successfully'
     }, { status: 201 })
   } catch (error: any) {
     console.error('❌ Error creating booking:', error)
-    console.error('Error details:', error.message)
+    console.error('Error stack:', error.stack)
     return NextResponse.json(
-      { success: false, error: 'Failed to create booking', details: error.message },
+      { 
+        success: false, 
+        error: 'Failed to create booking', 
+        details: error.message,
+        hint: 'Please check server logs for more details'
+      },
       { status: 500 }
     )
   }

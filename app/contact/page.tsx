@@ -88,8 +88,11 @@ export default function Contact() {
         }),
       })
 
+      const data = await response.json()
+
       if (!response.ok) {
-        throw new Error('Failed to send message')
+        console.error('API Error:', data)
+        throw new Error(data.error || data.details || 'Failed to send message')
       }
 
       setSubmitted(true)
@@ -97,9 +100,9 @@ export default function Contact() {
       
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitted(false), 5000)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting form:', error)
-      alert('Error sending message. Please try again or contact us directly.')
+      alert(`Error: ${error.message}\n\nPlease try again or contact us directly at:\nPhone: +1 (780) 255-2999\nEmail: Lakshmi@luckydrivingschool.net`)
     } finally {
       setLoading(false)
     }

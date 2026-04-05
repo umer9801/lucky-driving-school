@@ -70,8 +70,11 @@ function BookingForm() {
         }),
       })
 
+      const data = await response.json()
+
       if (!response.ok) {
-        throw new Error('Failed to create booking')
+        console.error('API Error:', data)
+        throw new Error(data.error || data.details || 'Failed to create booking')
       }
 
       setSubmitMessage('Booking submitted successfully! We will contact you soon.')
@@ -79,9 +82,9 @@ function BookingForm() {
       setTimeout(() => {
         router.push('/courses')
       }, 2000)
-    } catch (error) {
-      setSubmitMessage('Error submitting booking. Please try again or contact us directly.')
+    } catch (error: any) {
       console.error('Booking error:', error)
+      setSubmitMessage(`Error: ${error.message}\n\nPlease try again or contact us directly at:\nPhone: +1 (780) 255-2999\nEmail: Lakshmi@luckydrivingschool.net`)
     } finally {
       setIsSubmitting(false)
     }
