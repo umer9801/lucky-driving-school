@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 
-// Create transporter with Hostinger SMTP
+// Create transporter with Hostinger SMTP (Port 465, SSL)
 const createTransporter = () => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.warn('⚠️ Email credentials not configured. Emails will not be sent.')
