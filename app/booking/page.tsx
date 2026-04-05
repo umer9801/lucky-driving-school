@@ -49,28 +49,38 @@ function BookingForm() {
     e.preventDefault()
     setIsSubmitting(true)
 
+    console.log('🚀 Form submission started')
+    console.log('Form data:', formData)
+
     try {
+      const payload = {
+        courseId: selectedCourse?.id || '',
+        courseName: selectedCourse?.name || 'Not specified',
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        experience: formData.experience,
+        preferredDate: formData.preferredDate,
+        preferredTime: formData.preferredTime,
+        licenseStatus: formData.licenseStatus,
+        message: formData.specialRequests,
+      }
+
+      console.log('📤 Sending payload:', payload)
+
       // Save booking to database via API
       const response = await fetch('/api/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          courseId: selectedCourse?.id || '',
-          courseName: selectedCourse?.name || 'Not specified',
-          fullName: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          experience: formData.experience,
-          preferredDate: formData.preferredDate,
-          preferredTime: formData.preferredTime,
-          licenseStatus: formData.licenseStatus,
-          message: formData.specialRequests,
-        }),
+        body: JSON.stringify(payload),
       })
 
+      console.log('📥 Response status:', response.status)
+
       const data = await response.json()
+      console.log('📥 Response data:', data)
 
       if (!response.ok) {
         console.error('API Error:', data)
