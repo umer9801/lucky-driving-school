@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { getAdminSession, clearAdminSession } from '@/lib/admin-storage'
 import { LogOut, Menu, X } from 'lucide-react'
 import Link from 'next/link'
@@ -12,11 +12,21 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   const router = useRouter()
+  const pathname = usePathname()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
+  // Check if we're on the login page
+  const isLoginPage = pathname === '/admin'
+
   useEffect(() => {
+    // Skip auth check for login page
+    if (isLoginPage) {
+      setLoading(false)
+      return
+    }
+
     const session = getAdminSession()
     if (!session || !session.isLoggedIn) {
       router.push('/admin')
@@ -24,11 +34,16 @@ export default function AdminLayout({
       setIsLoggedIn(true)
     }
     setLoading(false)
-  }, [router])
+  }, [router, isLoginPage])
 
   const handleLogout = () => {
     clearAdminSession()
     router.push('/admin')
+  }
+
+  // Show login page without layout
+  if (isLoginPage) {
+    return <>{children}</>
   }
 
   if (loading) {
