@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
     console.log('✅ Contact created:', contact._id)
 
     // Send emails (don't wait for them to complete)
+    console.log('📧 Attempting to send contact emails...')
     Promise.all([
       sendContactConfirmationToUser({
         fullName: contact.fullName,
@@ -64,8 +65,11 @@ export async function POST(request: NextRequest) {
         subject: contact.subject,
         message: contact.message,
       }),
-    ]).catch((error) => {
-      console.error('⚠️ Error sending emails:', error)
+    ]).then(() => {
+      console.log('✅ All contact emails sent successfully')
+    }).catch((error) => {
+      console.error('⚠️ Error sending contact emails:', error.message)
+      console.error('⚠️ Contact email error details:', error)
     })
 
     return NextResponse.json({ 

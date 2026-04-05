@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
     console.log('✅ Booking created:', booking._id)
 
     // Send emails (don't wait for them to complete)
+    console.log('📧 Attempting to send emails...')
     Promise.all([
       sendBookingConfirmationToUser({
         fullName: booking.fullName,
@@ -70,8 +71,11 @@ export async function POST(request: NextRequest) {
         licenseStatus: booking.licenseStatus,
         message: booking.message,
       }),
-    ]).catch((error) => {
-      console.error('⚠️ Error sending emails:', error)
+    ]).then(() => {
+      console.log('✅ All emails sent successfully')
+    }).catch((error) => {
+      console.error('⚠️ Error sending emails:', error.message)
+      console.error('⚠️ Email error details:', error)
     })
 
     return NextResponse.json({ 
