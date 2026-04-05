@@ -1,0 +1,420 @@
+'use client'
+
+import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { Header } from '@/components/header'
+import { Footer } from '@/components/footer'
+import { HeroSection } from '@/components/hero-section'
+import { FloatingWhatsApp } from '@/components/floating-whatsapp'
+import { Star, Award, Users, Target, Clock, Shield, Heart, TrendingUp } from 'lucide-react'
+
+export const metadata = {
+  title: 'About Us | Lucky Driving School',
+  description: 'Learn about Lucky Driving School, our mission, and our experienced instructors in Edmonton.',
+}
+
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+}
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+}
+
+const slideInLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0 }
+}
+
+const slideInRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0 }
+}
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1 }
+}
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+export default function About() {
+  return (
+    <>
+      <Header />
+      <main className="min-h-screen bg-white">
+        {/* Hero Section - Fade In */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn}
+          transition={{ duration: 0.6 }}
+        >
+          <HeroSection
+            title="About Lucky Driving School"
+            subtitle="Building safe, confident drivers in Edmonton since day one"
+            backgroundImage="/images/about-hero.jpg"
+          />
+        </motion.div>
+
+        {/* Our Story - Split Section */}
+        <section className="py-16 md:py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Text - Slide In Left */}
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={slideInLeft}
+                transition={{ duration: 0.6 }}
+              >
+                <h2 className="font-serif text-4xl font-bold text-primary mb-6">Our Story</h2>
+                <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+                  Lucky Driving School was founded with a simple mission: to make professional driver education accessible and effective for everyone in Edmonton. Our team of experienced instructors has helped hundreds of students master the skills they need to become confident, safe drivers.
+                </p>
+                <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+                  We believe that driving education is more than just passing a test—it&apos;s about building habits, confidence, and a genuine commitment to road safety. That&apos;s why we combine proven teaching methods with personalized attention to ensure every student reaches their full potential.
+                </p>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  Whether you&apos;re a complete beginner or looking to refresh your skills, Lucky Driving School has the right program for you.
+                </p>
+              </motion.div>
+
+              {/* Image - Slide In Right */}
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={slideInRight}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
+                  <Image
+                    src="/images/hero-driving.jpg"
+                    alt="Lucky Driving School story"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Values Section */}
+        <section className="py-16 md:py-24 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Heading - Fade In Up */}
+            <motion.h2
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ duration: 0.5 }}
+              className="font-serif text-4xl font-bold text-center text-primary mb-12"
+            >
+              Our Values
+            </motion.h2>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            >
+              {[
+                {
+                  icon: Target,
+                  title: 'Excellence',
+                  description: 'We&apos;re committed to the highest standards of instruction and customer service.',
+                },
+                {
+                  icon: Users,
+                  title: 'Personal Touch',
+                  description: 'Every student is unique. We tailor our teaching to your individual needs and learning style.',
+                },
+                {
+                  icon: Award,
+                  title: 'Safety First',
+                  description: 'Safety is our top priority, for our students and everyone on the road.',
+                },
+                {
+                  icon: Star,
+                  title: 'Reliability',
+                  description: 'You can count on us to be professional, punctual, and prepared every single time.',
+                },
+              ].map((value, index) => {
+                const Icon = value.icon
+                return (
+                  <motion.div 
+                    key={index}
+                    variants={scaleIn}
+                    whileHover={{ scale: 1.1, y: -5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="bg-white p-8 rounded-lg shadow-md"
+                  >
+                    <motion.div
+                      initial={{ scale: 0, rotate: -180 }}
+                      whileInView={{ scale: 1, rotate: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1, type: "spring", stiffness: 200 }}
+                    >
+                      <Icon className="text-secondary mb-4" size={40} />
+                    </motion.div>
+                    <h3 className="font-serif text-xl font-bold mb-3 text-foreground">
+                      {value.title}
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed">{value.description}</p>
+                  </motion.div>
+                )
+              })}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Why Choose Us - Split Section */}
+        <section className="py-16 md:py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Image - Slide In Left */}
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={slideInLeft}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl">
+                  <Image
+                    src="/images/contact-hero.jpg"
+                    alt="Why choose Lucky Driving School"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Text - Slide In Right */}
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={slideInRight}
+                transition={{ duration: 0.6 }}
+              >
+                <h2 className="font-serif text-4xl font-bold mb-6 text-primary">
+                  Why Students Choose Us
+                </h2>
+                <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                  We're more than just a driving school. We're your partner in building lifelong safe driving habits.
+                </p>
+                
+                {/* List items - Staggered Fade */}
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={staggerContainer}
+                  className="space-y-4"
+                >
+                  {[
+                    {
+                      icon: Clock,
+                      title: 'Flexible Scheduling',
+                      desc: 'Book lessons that fit your schedule, 7 days a week',
+                    },
+                    {
+                      icon: Shield,
+                      title: 'Safety Guaranteed',
+                      desc: 'All vehicles equipped with dual controls and fully insured',
+                    },
+                    {
+                      icon: Heart,
+                      title: 'Patient Instructors',
+                      desc: 'Supportive teaching approach for nervous beginners',
+                    },
+                    {
+                      icon: TrendingUp,
+                      title: 'Proven Track Record',
+                      desc: '95% pass rate and hundreds of satisfied students',
+                    },
+                  ].map((item, index) => {
+                    const Icon = item.icon
+                    return (
+                      <motion.div 
+                        key={index}
+                        variants={fadeInUp}
+                        whileHover={{ scale: 1.05, backgroundColor: "#ffffff", boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2)" }}
+                        className="flex items-start gap-4 bg-gray-50 p-4 rounded-lg transition-all duration-300"
+                      >
+                        <Icon className="text-secondary flex-shrink-0 mt-1" size={28} />
+                        <div>
+                          <h3 className="font-semibold text-lg text-foreground mb-1">{item.title}</h3>
+                          <p className="text-gray-600">{item.desc}</p>
+                        </div>
+                      </motion.div>
+                    )
+                  })}
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Team Section */}
+        <section className="py-16 md:py-24 bg-gray-50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.h2
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ duration: 0.5 }}
+              className="font-serif text-4xl font-bold text-primary mb-12 text-center"
+            >
+              Our Expert Instructors
+            </motion.h2>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={scaleIn}
+              transition={{ duration: 0.6 }}
+              whileHover={{ scale: 1.02 }}
+              className="bg-gradient-to-r from-primary to-blue-600 text-white rounded-lg p-8 md:p-12 shadow-xl"
+            >
+              <h3 className="font-serif text-2xl font-bold mb-4">Meet Our Team</h3>
+              <p className="text-lg text-blue-100 mb-6 leading-relaxed">
+                Our instructors are certified professionals with years of real-world driving experience. They combine patience, expertise, and a genuine passion for helping students become confident drivers. Each instructor is dedicated to creating a supportive learning environment where you can develop the skills and confidence needed for safe, independent driving.
+              </p>
+              <motion.ul
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={staggerContainer}
+                className="space-y-3 text-blue-100"
+              >
+                {[
+                  'All instructors are fully licensed and certified',
+                  'Average experience of 10+ years in professional driving',
+                  'Continuous training in latest teaching methods and safety standards',
+                  'Background checks and insurance certification completed',
+                ].map((item, index) => (
+                  <motion.li key={index} variants={fadeInUp} className="flex gap-2">
+                    <span className="text-secondary font-bold">✓</span>
+                    <span>{item}</span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <section className="py-16 md:py-24 bg-primary text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.h2
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ duration: 0.5 }}
+              className="font-serif text-4xl font-bold text-center mb-12"
+            >
+              Our Achievements
+            </motion.h2>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+            >
+              {[
+                { number: '500+', label: 'Students Trained' },
+                { number: '95%', label: 'Road Test Pass Rate' },
+                { number: '10+', label: 'Years Experience' },
+              ].map((stat, index) => (
+                <motion.div 
+                  key={index}
+                  variants={scaleIn}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.2, type: "spring", stiffness: 200 }}
+                    className="font-serif text-4xl md:text-5xl font-bold mb-2"
+                  >
+                    {stat.number}
+                  </motion.div>
+                  <p className="text-lg text-blue-100">{stat.label}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-16 md:py-24 bg-gray-50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <motion.h2
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ duration: 0.5 }}
+              className="font-serif text-4xl font-bold mb-6 text-primary"
+            >
+              Ready to Learn from the Best?
+            </motion.h2>
+            <motion.p
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-lg text-gray-700 mb-8"
+            >
+              Get started with Lucky Driving School today and discover why hundreds of students trust us for their driving education.
+            </motion.p>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ delay: 0.4 }}
+            >
+              <motion.a
+                href="/courses"
+                whileHover={{ scale: 1.1, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3)" }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-block bg-secondary text-white px-8 py-4 rounded-lg font-semibold text-lg"
+              >
+                Explore Our Courses
+              </motion.a>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+      <FloatingWhatsApp />
+    </>
+  )
+}
