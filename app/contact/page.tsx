@@ -1,13 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { HeroSection } from '@/components/hero-section'
 import { FloatingWhatsApp } from '@/components/floating-whatsapp'
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react'
+import { addContact, initializeStorage } from '@/lib/admin-storage'
 
 export default function Contact() {
+  useEffect(() => {
+    initializeStorage()
+  }, [])
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -31,9 +36,15 @@ export default function Contact() {
     setLoading(true)
     
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      console.log('Form submitted:', formData)
+      // Save contact message to admin storage
+      addContact({
+        fullName: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+      })
+
       setSubmitted(true)
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
       
@@ -58,12 +69,12 @@ export default function Contact() {
         />
 
         {/* Contact Information */}
-        <section className="py-16 md:py-24 bg-gray-50">
+        <section className="py-16 md:py-24 bg-gray-50 animate-fade-in">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {/* Address */}
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <MapPin className="text-secondary mx-auto mb-4" size={40} />
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl text-center transition-all duration-300 transform hover:scale-105 animate-slide-up">
+                <MapPin className="text-secondary mx-auto mb-4 animate-bounce-in" size={40} />
                 <h3 className="font-serif text-xl font-bold mb-2 text-foreground">Address</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
                   3119 158 Street SW<br />
@@ -73,34 +84,34 @@ export default function Contact() {
               </div>
 
               {/* Phone */}
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <Phone className="text-secondary mx-auto mb-4" size={40} />
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl text-center transition-all duration-300 transform hover:scale-105 animate-slide-up" style={{ animationDelay: '100ms' }}>
+                <Phone className="text-secondary mx-auto mb-4 animate-bounce-in" style={{ animationDelay: '100ms' }} size={40} />
                 <h3 className="font-serif text-xl font-bold mb-2 text-foreground">Phone</h3>
                 <p className="text-gray-600 text-sm">
-                  <a href="tel:+17802552999" className="hover:text-primary font-semibold">
+                  <a href="tel:+17802552999" className="hover:text-primary font-semibold transition-colors duration-200">
                     +1 (780) 255-2999
                   </a>
                   <br />
-                  <a href="tel:+15877124929" className="hover:text-primary font-semibold">
+                  <a href="tel:+15877124929" className="hover:text-primary font-semibold transition-colors duration-200">
                     +1 (587) 712-4929
                   </a>
                 </p>
               </div>
 
               {/* Email */}
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <Mail className="text-secondary mx-auto mb-4" size={40} />
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl text-center transition-all duration-300 transform hover:scale-105 animate-slide-up" style={{ animationDelay: '200ms' }}>
+                <Mail className="text-secondary mx-auto mb-4 animate-bounce-in" style={{ animationDelay: '200ms' }} size={40} />
                 <h3 className="font-serif text-xl font-bold mb-2 text-foreground">Email</h3>
                 <p className="text-gray-600 text-sm">
-                  <a href="mailto:Lakshmi@luckydrivingschool.net" className="hover:text-primary font-semibold">
+                  <a href="mailto:Lakshmi@luckydrivingschool.net" className="hover:text-primary font-semibold transition-colors duration-200">
                     Lakshmi@luckydrivingschool.net
                   </a>
                 </p>
               </div>
 
               {/* Hours */}
-              <div className="bg-white p-6 rounded-lg shadow-md text-center">
-                <Clock className="text-secondary mx-auto mb-4" size={40} />
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl text-center transition-all duration-300 transform hover:scale-105 animate-slide-up" style={{ animationDelay: '300ms' }}>
+                <Clock className="text-secondary mx-auto mb-4 animate-bounce-in" style={{ animationDelay: '300ms' }} size={40} />
                 <h3 className="font-serif text-xl font-bold mb-2 text-foreground">Hours</h3>
                 <p className="text-gray-600 text-sm">
                   <span className="font-semibold">Mon - Sat:</span> 7:00 AM - 6:30 PM<br />
@@ -112,12 +123,12 @@ export default function Contact() {
         </section>
 
         {/* Contact Form & Map Section */}
-        <section className="py-16 md:py-24 bg-white">
+        <section className="py-16 md:py-24 bg-white animate-fade-in">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Contact Form */}
-              <div>
-                <h2 className="font-serif text-3xl font-bold text-primary mb-8">Send us a Message</h2>
+              <div className="animate-slide-left">
+                <h2 className="font-serif text-3xl font-bold text-primary mb-8 animate-slide-down">Send us a Message</h2>
 
                 {submitted && (
                   <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">

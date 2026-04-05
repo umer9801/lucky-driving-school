@@ -23,22 +23,23 @@ export default function Courses() {
         />
 
         {/* Pricing Tier Selector */}
-        <section className="py-12 md:py-16 bg-gray-50">
+        <section className="py-12 md:py-16 bg-gray-50 animate-fade-in">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-center font-serif text-2xl font-bold mb-8 text-primary">
+            <h2 className="text-center font-serif text-2xl font-bold mb-8 text-primary animate-slide-down">
               Select Your Pricing Plan
             </h2>
 
             <div className="flex justify-center gap-4 flex-wrap">
-              {pricingTiers.map((tier) => (
+              {pricingTiers.map((tier, index) => (
                 <button
                   key={tier.key}
                   onClick={() => setSelectedTier(tier.key)}
-                  className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                  className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-110 active:scale-95 animate-slide-up ${
                     selectedTier === tier.key
                       ? 'bg-secondary text-white shadow-lg'
                       : 'bg-white text-primary border-2 border-primary hover:border-secondary'
                   }`}
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="text-lg">{tier.name}</div>
                   <div className="text-xs opacity-75">{tier.description}</div>
@@ -49,28 +50,29 @@ export default function Courses() {
         </section>
 
         {/* Courses Grid */}
-        <section className="py-16 md:py-24 bg-white">
+        <section className="py-16 md:py-24 bg-white animate-fade-in">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-serif text-4xl font-bold text-center mb-12 text-primary">
+            <h2 className="font-serif text-4xl font-bold text-center mb-12 text-primary animate-slide-down">
               All Available Courses
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {courses.map((course) => (
-                <CourseCard
-                  key={course.id}
-                  course={course}
-                  pricingTier={selectedTier}
-                />
+              {courses.map((course, index) => (
+                <div key={course.id} className="animate-slide-up" style={{ animationDelay: `${index * 75}ms` }}>
+                  <CourseCard
+                    course={course}
+                    pricingTier={selectedTier}
+                  />
+                </div>
               ))}
             </div>
           </div>
         </section>
 
         {/* Course Categories */}
-        <section className="py-16 md:py-24 bg-gray-50">
+        <section className="py-16 md:py-24 bg-gray-50 animate-fade-in">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-serif text-4xl font-bold text-center mb-12 text-primary">
+            <h2 className="font-serif text-4xl font-bold text-center mb-12 text-primary animate-slide-down">
               Courses by Type
             </h2>
 

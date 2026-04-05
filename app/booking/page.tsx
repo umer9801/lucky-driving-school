@@ -7,8 +7,14 @@ import { Footer } from '@/components/footer'
 import { HeroSection } from '@/components/hero-section'
 import { FloatingWhatsApp } from '@/components/floating-whatsapp'
 import { courses } from '@/lib/courses-data'
+import { addBooking, initializeStorage } from '@/lib/admin-storage'
+import { useEffect } from 'react'
 
 export default function Booking() {
+  useEffect(() => {
+    initializeStorage()
+  }, [])
+
   const searchParams = useSearchParams()
   const router = useRouter()
   const courseId = searchParams.get('courseId')
@@ -45,30 +51,26 @@ export default function Booking() {
     setIsSubmitting(true)
 
     try {
-      // Simulate form submission - in production, this would send to your backend
-      const emailBody = `
-Booking Request from Lucky Driving School Website
+      // Save booking to admin storage
+      addBooking({
+        courseId: selectedCourse?.id || '',
+        courseName: selectedCourse?.name || 'Not specified',
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        experience: formData.experience,
+        preferredDate: formData.preferredDate,
+        preferredTime: formData.preferredTime,
+        licenseStatus: formData.licenseStatus,
+        message: formData.specialRequests,
+      })
 
-Full Name: ${formData.fullName}
-Email: ${formData.email}
-Phone: ${formData.phone}
-Course: ${selectedCourse?.name || 'Not specified'}
-Preferred Date: ${formData.preferredDate}
-Preferred Time: ${formData.preferredTime}
-Driving Experience: ${formData.experience}
-License Status: ${formData.licenseStatus}
-Special Requests: ${formData.specialRequests}
-      `
-
-      // Log for demonstration - replace with actual API call
-      console.log('Booking submitted:', formData)
-      
       // Redirect to WhatsApp with pre-filled message
       const whatsappMessage = `Hi, I'd like to book the ${selectedCourse?.name || 'a driving course'} course. My name is ${formData.fullName} and my phone number is ${formData.phone}.`
       const whatsappUrl = `https://wa.me/17802552999?text=${encodeURIComponent(whatsappMessage)}`
       window.open(whatsappUrl, '_blank')
       
-      setSubmitMessage('Booking request submitted! Check WhatsApp for confirmation.')
+      setSubmitMessage('Booking request submitted! Your booking has been saved in our system. Check WhatsApp for confirmation.')
       
       setTimeout(() => {
         router.push('/courses')

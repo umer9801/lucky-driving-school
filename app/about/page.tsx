@@ -22,25 +22,25 @@ export default function About() {
         />
 
         {/* Our Story */}
-        <section className="py-16 md:py-24 bg-white">
+        <section className="py-16 md:py-24 bg-white animate-fade-in">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-serif text-4xl font-bold text-primary mb-6">Our Story</h2>
-            <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+            <h2 className="font-serif text-4xl font-bold text-primary mb-6 animate-slide-down">Our Story</h2>
+            <p className="text-lg text-gray-700 mb-4 leading-relaxed animate-slide-up">
               Lucky Driving School was founded with a simple mission: to make professional driver education accessible and effective for everyone in Edmonton. Our team of experienced instructors has helped hundreds of students master the skills they need to become confident, safe drivers.
             </p>
-            <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+            <p className="text-lg text-gray-700 mb-4 leading-relaxed animate-slide-up" style={{ animationDelay: '100ms' }}>
               We believe that driving education is more than just passing a test—it&apos;s about building habits, confidence, and a genuine commitment to road safety. That&apos;s why we combine proven teaching methods with personalized attention to ensure every student reaches their full potential.
             </p>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <p className="text-lg text-gray-700 leading-relaxed animate-slide-up" style={{ animationDelay: '200ms' }}>
               Whether you&apos;re a complete beginner or looking to refresh your skills, Lucky Driving School has the right program for you.
             </p>
           </div>
         </section>
 
         {/* Values Section */}
-        <section className="py-16 md:py-24 bg-gray-50">
+        <section className="py-16 md:py-24 bg-gray-50 animate-fade-in">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-serif text-4xl font-bold text-center text-primary mb-12">
+            <h2 className="font-serif text-4xl font-bold text-center text-primary mb-12 animate-slide-down">
               Our Values
             </h2>
 
@@ -69,8 +69,8 @@ export default function About() {
               ].map((value, index) => {
                 const Icon = value.icon
                 return (
-                  <div key={index} className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <Icon className="text-secondary mb-4" size={40} />
+                  <div key={index} className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
+                    <Icon className="text-secondary mb-4 animate-bounce-in" style={{ animationDelay: `${index * 100}ms` }} size={40} />
                     <h3 className="font-serif text-xl font-bold mb-3 text-foreground">
                       {value.title}
                     </h3>
