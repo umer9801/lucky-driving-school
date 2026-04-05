@@ -1,8 +1,18 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getContacts, updateContact, deleteContact, exportToCSV, Contact } from '@/lib/admin-storage'
+import { exportToCSV } from '@/lib/admin-storage'
 import { Search, Trash2, Mail, Download, Filter, Eye, EyeOff } from 'lucide-react'
+
+interface Contact {
+  _id: string
+  fullName: string
+  email: string
+  subject: string
+  message: string
+  status: 'unread' | 'read' | 'replied'
+  createdAt: string
+}
 
 function ContactsTable() {
   const [contacts, setContacts] = useState<Contact[]>([])
@@ -10,10 +20,23 @@ function ContactsTable() {
   const [filterStatus, setFilterStatus] = useState<string>('all')
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setContacts(getContacts())
+    fetchContacts()
   }, [])
+
+  const fetchContacts = async () => {
+    try {
+      const response = await fetch('/api/contacts')
+      const data = await response.json()
+      setContacts(data.contacts || [])
+    } catch (error) {
+      console.error('Error fetching contacts:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const filteredContacts = contacts.filter(contact => {
     const matchesSearch = contact.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -23,16 +46,34 @@ function ContactsTable() {
     return matchesSearch && matchesFilter
   })
 
-  const handleMarkAsRead = (id: string) => {
-    updateContact(id, { status: 'read' })
-    setContacts(getContacts())
+  const handleMarkAsRead = async (id: string) => {
+    try {
+      const response = await fetch(`/api/contacts?id=${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'read' }),
+      })
+      if (response.ok) {
+        fetchContacts()
+      }
+    } catch (error) {
+      console.error('Error updating contact:', error)
+    }
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this contact?')) {
-      deleteContact(id)
-      setContacts(getContacts())
-      setShowModal(false)
+      try {
+        const response = await fetch(`/api/contacts?id=${id}`, {
+          method: 'DELETE',
+        })
+        if (response.ok) {
+          fetchContacts()
+          setShowModal(false)
+        }
+      } catch (error) {
+        console.error('Error deleting contact:', error)
+      }
     }
   }
 
@@ -46,13 +87,24 @@ function ContactsTable() {
     setShowModal(true)
   }
 
-  const getStatusColor = (status: Contact['status']) => {
+  const getStatusColor = (status: 'unread' | 'read' | 'replied') => {
     const colors = {
       unread: 'bg-red-100 text-red-800 font-bold',
       read: 'bg-yellow-100 text-yellow-800',
       replied: 'bg-green-100 text-green-800',
     }
     return colors[status]
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading contacts...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -130,7 +182,7 @@ function ContactsTable() {
               {filteredContacts.length > 0 ? (
                 filteredContacts.map((contact, index) => (
                   <tr
-                    key={contact.id}
+                    key={contact._id}
                     className={`border-b border-gray-200 hover:bg-gray-50 transition-colors animate-fade-in ${contact.status === 'unread' ? 'bg-blue-50' : ''}`}
                     style={{ animationDelay: `${index * 30}ms` }}
                   >
@@ -159,7 +211,7 @@ function ContactsTable() {
                           <Eye size={18} />
                         </button>
                         <button
-                          onClick={() => handleDelete(contact.id)}
+                          onClick={() => handleDelete(contact._id)}
                           className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors transform hover:scale-110 active:scale-95"
                           title="Delete"
                         >

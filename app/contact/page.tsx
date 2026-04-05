@@ -7,7 +7,7 @@ import { Footer } from '@/components/footer'
 import { HeroSection } from '@/components/hero-section'
 import { FloatingWhatsApp } from '@/components/floating-whatsapp'
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react'
-import { addContact, initializeStorage } from '@/lib/admin-storage'
+import { initializeStorage } from '@/lib/admin-storage'
 
 // Animation variants
 const fadeInUp = {
@@ -73,14 +73,43 @@ export default function Contact() {
     setLoading(true)
     
     try {
-      // Save contact message to admin storage
-      addContact({
-        fullName: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        subject: formData.subject,
-        message: formData.message,
+      // Save contact message to database via API
+      const response = await fetch('/api/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       })
+
+      if (!response.ok) {
+        throw new Error('Failed to send message')
+      }
+
+      const result = await response.json()
+
+      // Open mailto links for user and owner
+      if (result.emails) {
+        // Open user email
+        window.open(
+          `mailto:${result.emails.user.to}?subject=${result.emails.user.subject}&body=${result.emails.user.body}`,
+          '_blank'
+        )
+        
+        // Open owner email after a short delay
+        setTimeout(() => {
+          window.open(
+            `mailto:${result.emails.owner.to}?subject=${result.emails.owner.subject}&body=${result.emails.owner.body}`,
+            '_blank'
+          )
+        }, 500)
+      }
 
       setSubmitted(true)
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
@@ -89,6 +118,7 @@ export default function Contact() {
       setTimeout(() => setSubmitted(false), 5000)
     } catch (error) {
       console.error('Error submitting form:', error)
+      alert('Error sending message. Please try again or contact us directly.')
     } finally {
       setLoading(false)
     }

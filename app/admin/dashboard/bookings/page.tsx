@@ -1,8 +1,18 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getBookings, updateBooking, deleteBooking, exportToCSV, Booking } from '@/lib/admin-storage'
+import { exportToCSV } from '@/lib/admin-storage'
 import { Search, Trash2, Edit2, Download, Filter } from 'lucide-react'
+
+interface Booking {
+  _id: string
+  fullName: string
+  email: string
+  phone: string
+  courseName: string
+  status: 'pending' | 'confirmed' | 'completed' | 'cancelled'
+  createdAt: string
+}
 
 function BookingTable() {
   const [bookings, setBookings] = useState<Booking[]>([])
@@ -10,10 +20,23 @@ function BookingTable() {
   const [filterStatus, setFilterStatus] = useState<string>('all')
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editStatus, setEditStatus] = useState<'pending' | 'confirmed' | 'completed' | 'cancelled'>('pending')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setBookings(getBookings())
+    fetchBookings()
   }, [])
+
+  const fetchBookings = async () => {
+    try {
+      const response = await fetch('/api/bookings')
+      const data = await response.json()
+      setBookings(data.bookings || [])
+    } catch (error) {
+      console.error('Error fetching bookings:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const filteredBookings = bookings.filter(booking => {
     const matchesSearch = booking.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -23,16 +46,34 @@ function BookingTable() {
     return matchesSearch && matchesFilter
   })
 
-  const handleStatusChange = (id: string, newStatus: Booking['status']) => {
-    updateBooking(id, { status: newStatus })
-    setBookings(getBookings())
-    setEditingId(null)
+  const handleStatusChange = async (id: string, newStatus: 'pending' | 'confirmed' | 'completed' | 'cancelled') => {
+    try {
+      const response = await fetch(`/api/bookings?id=${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      })
+      if (response.ok) {
+        fetchBookings()
+        setEditingId(null)
+      }
+    } catch (error) {
+      console.error('Error updating booking:', error)
+    }
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this booking?')) {
-      deleteBooking(id)
-      setBookings(getBookings())
+      try {
+        const response = await fetch(`/api/bookings?id=${id}`, {
+          method: 'DELETE',
+        })
+        if (response.ok) {
+          fetchBookings()
+        }
+      } catch (error) {
+        console.error('Error deleting booking:', error)
+      }
     }
   }
 
@@ -40,7 +81,7 @@ function BookingTable() {
     exportToCSV(filteredBookings, 'bookings.csv')
   }
 
-  const getStatusColor = (status: Booking['status']) => {
+  const getStatusColor = (status: 'pending' | 'confirmed' | 'completed' | 'cancelled') => {
     const colors = {
       pending: 'bg-yellow-100 text-yellow-800',
       confirmed: 'bg-blue-100 text-blue-800',
@@ -48,6 +89,17 @@ function BookingTable() {
       cancelled: 'bg-red-100 text-red-800',
     }
     return colors[status]
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading bookings...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -126,7 +178,7 @@ function BookingTable() {
               {filteredBookings.length > 0 ? (
                 filteredBookings.map((booking, index) => (
                   <tr
-                    key={booking.id}
+                    key={booking._id}
                     className="border-b border-gray-200 hover:bg-gray-50 transition-colors animate-fade-in"
                     style={{ animationDelay: `${index * 30}ms` }}
                   >
@@ -142,11 +194,11 @@ function BookingTable() {
                     <td className="px-6 py-4 text-gray-600">{booking.email}</td>
                     <td className="px-6 py-4 text-gray-600">{new Date(booking.createdAt).toLocaleDateString()}</td>
                     <td className="px-6 py-4">
-                      {editingId === booking.id ? (
+                      {editingId === booking._id ? (
                         <select
                           value={editStatus}
-                          onChange={(e) => setEditStatus(e.target.value as Booking['status'])}
-                          onBlur={() => handleStatusChange(booking.id, editStatus)}
+                          onChange={(e) => setEditStatus(e.target.value as 'pending' | 'confirmed' | 'completed' | 'cancelled')}
+                          onBlur={() => handleStatusChange(booking._id, editStatus)}
                           autoFocus
                           className="px-2 py-1 border border-primary rounded text-sm"
                         >
@@ -158,7 +210,7 @@ function BookingTable() {
                       ) : (
                         <span
                           onClick={() => {
-                            setEditingId(booking.id)
+                            setEditingId(booking._id)
                             setEditStatus(booking.status)
                           }}
                           className={`px-3 py-1 rounded-full text-xs font-bold cursor-pointer hover:opacity-80 transition-opacity ${getStatusColor(booking.status)}`}
@@ -170,7 +222,7 @@ function BookingTable() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => handleDelete(booking.id)}
+                          onClick={() => handleDelete(booking._id)}
                           className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors transform hover:scale-110 active:scale-95"
                           title="Delete"
                         >

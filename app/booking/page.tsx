@@ -7,7 +7,7 @@ import { Footer } from '@/components/footer'
 import { HeroSection } from '@/components/hero-section'
 import { FloatingWhatsApp } from '@/components/floating-whatsapp'
 import { courses } from '@/lib/courses-data'
-import { addBooking, initializeStorage } from '@/lib/admin-storage'
+import { initializeStorage } from '@/lib/admin-storage'
 
 function BookingForm() {
   useEffect(() => {
@@ -50,30 +50,54 @@ function BookingForm() {
     setIsSubmitting(true)
 
     try {
-      // Save booking to admin storage
-      addBooking({
-        courseId: selectedCourse?.id || '',
-        courseName: selectedCourse?.name || 'Not specified',
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        experience: formData.experience,
-        preferredDate: formData.preferredDate,
-        preferredTime: formData.preferredTime,
-        licenseStatus: formData.licenseStatus,
-        message: formData.specialRequests,
+      // Save booking to database via API
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          courseId: selectedCourse?.id || '',
+          courseName: selectedCourse?.name || 'Not specified',
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          experience: formData.experience,
+          preferredDate: formData.preferredDate,
+          preferredTime: formData.preferredTime,
+          licenseStatus: formData.licenseStatus,
+          message: formData.specialRequests,
+        }),
       })
 
-      // Redirect to WhatsApp with pre-filled message
-      const whatsappMessage = `Hi, I'd like to book the ${selectedCourse?.name || 'a driving course'} course. My name is ${formData.fullName} and my phone number is ${formData.phone}.`
-      const whatsappUrl = `https://wa.me/17802552999?text=${encodeURIComponent(whatsappMessage)}`
-      window.open(whatsappUrl, '_blank')
+      if (!response.ok) {
+        throw new Error('Failed to create booking')
+      }
+
+      const result = await response.json()
+
+      // Open mailto links for user and owner
+      if (result.emails) {
+        // Open user email
+        window.open(
+          `mailto:${result.emails.user.to}?subject=${result.emails.user.subject}&body=${result.emails.user.body}`,
+          '_blank'
+        )
+        
+        // Open owner email after a short delay
+        setTimeout(() => {
+          window.open(
+            `mailto:${result.emails.owner.to}?subject=${result.emails.owner.subject}&body=${result.emails.owner.body}`,
+            '_blank'
+          )
+        }, 500)
+      }
       
-      setSubmitMessage('Booking request submitted! Your booking has been saved in our system. Check WhatsApp for confirmation.')
+      setSubmitMessage('Booking saved! Email windows will open - please send both emails.')
       
       setTimeout(() => {
         router.push('/courses')
-      }, 2000)
+      }, 3000)
     } catch (error) {
       setSubmitMessage('Error submitting booking. Please try again or contact us directly.')
       console.error('Booking error:', error)

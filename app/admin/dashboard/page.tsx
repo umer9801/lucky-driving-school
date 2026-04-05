@@ -2,8 +2,23 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { getBookings, getContacts } from '@/lib/admin-storage'
 import { TrendingUp, Calendar, Mail, Clock } from 'lucide-react'
+
+interface Booking {
+  _id: string
+  fullName: string
+  courseName: string
+  status: string
+  createdAt: string
+}
+
+interface Contact {
+  _id: string
+  fullName: string
+  subject: string
+  status: string
+  createdAt: string
+}
 
 // Animated Counter Component
 function AnimatedCounter({ end, duration = 2000 }: { end: number; duration?: number }) {
@@ -101,13 +116,30 @@ function ActivityItem({
 }
 
 export default function DashboardHome() {
-  const [bookings, setBookings] = useState<any[]>([])
-  const [contacts, setContacts] = useState<any[]>([])
+  const [bookings, setBookings] = useState<Booking[]>([])
+  const [contacts, setContacts] = useState<Contact[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setBookings(getBookings())
-    setContacts(getContacts())
+    fetchData()
   }, [])
+
+  const fetchData = async () => {
+    try {
+      const [bookingsRes, contactsRes] = await Promise.all([
+        fetch('/api/bookings'),
+        fetch('/api/contacts'),
+      ])
+      const bookingsData = await bookingsRes.json()
+      const contactsData = await contactsRes.json()
+      setBookings(bookingsData.bookings || [])
+      setContacts(contactsData.contacts || [])
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const pendingBookings = bookings.filter(b => b.status === 'pending').length
   const unreadContacts = contacts.filter(c => c.status === 'unread').length
@@ -127,6 +159,17 @@ export default function DashboardHome() {
   ]
     .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
     .slice(0, 8)
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dashboard...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-8 animate-fade-in">
