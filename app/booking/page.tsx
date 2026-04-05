@@ -52,9 +52,16 @@ function BookingForm() {
     console.log('🚀 Form submission started')
     console.log('Form data:', formData)
 
+    // Validate courseId
+    if (!formData.courseId) {
+      setSubmitMessage('Please select a course before submitting.')
+      setIsSubmitting(false)
+      return
+    }
+
     try {
       const payload = {
-        courseId: selectedCourse?.id || '',
+        courseId: formData.courseId,
         courseName: selectedCourse?.name || 'Not specified',
         fullName: formData.fullName,
         email: formData.email,
@@ -83,7 +90,10 @@ function BookingForm() {
       console.log('📥 Response data:', data)
 
       if (!response.ok) {
-        console.error('API Error:', data)
+        console.error('❌ API Error Response:', data)
+        console.error('❌ Status:', response.status)
+        console.error('❌ Error message:', data.error)
+        console.error('❌ Error details:', data.details)
         throw new Error(data.error || data.details || 'Failed to create booking')
       }
 
@@ -113,6 +123,7 @@ function BookingForm() {
               name="courseId"
               value={formData.courseId}
               onChange={handleChange}
+              required
               className="w-full px-4 py-3 border-2 border-primary rounded-lg focus:outline-none focus:border-secondary font-medium"
             >
               <option value="">Choose a course...</option>
