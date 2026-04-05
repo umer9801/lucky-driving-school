@@ -21,11 +21,16 @@ export async function GET() {
 // POST - Create new booking
 export async function POST(request: NextRequest) {
   try {
+    console.log('📝 Booking API called')
     await connectDB()
+    console.log('✅ MongoDB connected')
+    
     const body = await request.json()
+    console.log('📋 Request body:', body)
 
     // Create booking in database
     const booking = await Booking.create(body)
+    console.log('✅ Booking created:', booking._id)
 
     // Create mailto links for emails
     const userEmail = createBookingEmailForUser({
@@ -56,10 +61,11 @@ export async function POST(request: NextRequest) {
         owner: ownerEmail,
       }
     }, { status: 201 })
-  } catch (error) {
-    console.error('Error creating booking:', error)
+  } catch (error: any) {
+    console.error('❌ Error creating booking:', error)
+    console.error('Error details:', error.message)
     return NextResponse.json(
-      { success: false, error: 'Failed to create booking' },
+      { success: false, error: 'Failed to create booking', details: error.message },
       { status: 500 }
     )
   }
