@@ -5,7 +5,6 @@ import { useRouter, usePathname } from 'next/navigation'
 import { getAdminSession, clearAdminSession } from '@/lib/admin-storage'
 import { LogOut, Menu, X } from 'lucide-react'
 import Link from 'next/link'
-
 export default function AdminLayout({
   children,
 }: {
@@ -26,7 +25,6 @@ export default function AdminLayout({
       setLoading(false)
       return
     }
-
     const session = getAdminSession()
     if (!session || !session.isLoggedIn) {
       router.push('/admin')
