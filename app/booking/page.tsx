@@ -74,30 +74,11 @@ function BookingForm() {
         throw new Error('Failed to create booking')
       }
 
-      const result = await response.json()
-
-      // Open mailto links for user and owner
-      if (result.emails) {
-        // Open user email
-        window.open(
-          `mailto:${result.emails.user.to}?subject=${result.emails.user.subject}&body=${result.emails.user.body}`,
-          '_blank'
-        )
-        
-        // Open owner email after a short delay
-        setTimeout(() => {
-          window.open(
-            `mailto:${result.emails.owner.to}?subject=${result.emails.owner.subject}&body=${result.emails.owner.body}`,
-            '_blank'
-          )
-        }, 500)
-      }
-      
-      setSubmitMessage('Booking saved! Email windows will open - please send both emails.')
+      setSubmitMessage('Booking submitted successfully! We will contact you soon.')
       
       setTimeout(() => {
         router.push('/courses')
-      }, 3000)
+      }, 2000)
     } catch (error) {
       setSubmitMessage('Error submitting booking. Please try again or contact us directly.')
       console.error('Booking error:', error)

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import Contact from '@/lib/models/Contact'
-import { createContactEmailForUser, createContactEmailForOwner } from '@/lib/email-simple'
+import { sendContactConfirmationToUser, sendContactNotificationToOwner } from '@/lib/email'
 
 // GET - Fetch all contacts
 export async function GET() {
@@ -27,28 +27,27 @@ export async function POST(request: NextRequest) {
     // Create contact in database
     const contact = await Contact.create(body)
 
-    // Create mailto links for emails
-    const userEmail = createContactEmailForUser({
-      fullName: contact.fullName,
-      email: contact.email,
-      subject: contact.subject,
-    })
-
-    const ownerEmail = createContactEmailForOwner({
-      fullName: contact.fullName,
-      email: contact.email,
-      phone: contact.phone,
-      subject: contact.subject,
-      message: contact.message,
+    // Send emails (don't wait for them to complete)
+    Promise.all([
+      sendContactConfirmationToUser({
+        fullName: contact.fullName,
+        email: contact.email,
+        subject: contact.subject,
+      }),
+      sendContactNotificationToOwner({
+        fullName: contact.fullName,
+        email: contact.email,
+        phone: contact.phone,
+        subject: contact.subject,
+        message: contact.message,
+      }),
+    ]).catch((error) => {
+      console.error('⚠️ Error sending emails:', error)
     })
 
     return NextResponse.json({ 
       success: true, 
-      data: contact,
-      emails: {
-        user: userEmail,
-        owner: ownerEmail,
-      }
+      data: contact
     }, { status: 201 })
   } catch (error) {
     console.error('Error creating contact:', error)

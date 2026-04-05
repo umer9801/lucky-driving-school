@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import Booking from '@/lib/models/Booking'
-import { createBookingEmailForUser, createBookingEmailForOwner } from '@/lib/email-simple'
+import { sendBookingConfirmationToUser, sendBookingNotificationToOwner } from '@/lib/email'
 
 // GET - Fetch all bookings
 export async function GET() {
@@ -32,34 +32,33 @@ export async function POST(request: NextRequest) {
     const booking = await Booking.create(body)
     console.log('✅ Booking created:', booking._id)
 
-    // Create mailto links for emails
-    const userEmail = createBookingEmailForUser({
-      fullName: booking.fullName,
-      email: booking.email,
-      courseName: booking.courseName,
-      preferredDate: booking.preferredDate,
-      preferredTime: booking.preferredTime,
-    })
-
-    const ownerEmail = createBookingEmailForOwner({
-      fullName: booking.fullName,
-      email: booking.email,
-      phone: booking.phone,
-      courseName: booking.courseName,
-      preferredDate: booking.preferredDate,
-      preferredTime: booking.preferredTime,
-      experience: booking.experience,
-      licenseStatus: booking.licenseStatus,
-      message: booking.message,
+    // Send emails (don't wait for them to complete)
+    Promise.all([
+      sendBookingConfirmationToUser({
+        fullName: booking.fullName,
+        email: booking.email,
+        courseName: booking.courseName,
+        preferredDate: booking.preferredDate,
+        preferredTime: booking.preferredTime,
+      }),
+      sendBookingNotificationToOwner({
+        fullName: booking.fullName,
+        email: booking.email,
+        phone: booking.phone,
+        courseName: booking.courseName,
+        preferredDate: booking.preferredDate,
+        preferredTime: booking.preferredTime,
+        experience: booking.experience,
+        licenseStatus: booking.licenseStatus,
+        message: booking.message,
+      }),
+    ]).catch((error) => {
+      console.error('⚠️ Error sending emails:', error)
     })
 
     return NextResponse.json({ 
       success: true, 
-      data: booking,
-      emails: {
-        user: userEmail,
-        owner: ownerEmail,
-      }
+      data: booking
     }, { status: 201 })
   } catch (error: any) {
     console.error('❌ Error creating booking:', error)
