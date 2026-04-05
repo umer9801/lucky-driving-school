@@ -8,11 +8,6 @@ import { HeroSection } from '@/components/hero-section'
 import { FloatingWhatsApp } from '@/components/floating-whatsapp'
 import { Star, Award, Users, Target, Clock, Shield, Heart, TrendingUp } from 'lucide-react'
 
-export const metadata = {
-  title: 'About Us | Lucky Driving School',
-  description: 'Learn about Lucky Driving School, our mission, and our experienced instructors in Edmonton.',
-}
-
 // Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
