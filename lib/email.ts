@@ -1,15 +1,24 @@
 import nodemailer from 'nodemailer'
 
 // Create transporter with Hostinger SMTP
-const transporter = nodemailer.createTransport({
-  host: 'smtp.hostinger.com',
-  port: 465,
-  secure: true, // SSL
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-})
+const createTransporter = () => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.warn('⚠️ Email credentials not configured. Emails will not be sent.')
+    return null
+  }
+
+  return nodemailer.createTransport({
+    host: 'smtp.hostinger.com',
+    port: 465,
+    secure: true, // SSL
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  })
+}
+
+const transporter = createTransporter()
 
 // Email to User - Booking Confirmation
 export async function sendBookingConfirmationToUser(booking: {
@@ -20,7 +29,7 @@ export async function sendBookingConfirmationToUser(booking: {
   preferredTime: string
 }) {
   const mailOptions = {
-    from: '"Lucky Driving School" <Lakshmi@luckydrivingschool.net>',
+    from: '"Lakshmi - Lucky Driving School" <info@solvixcore.com>',
     replyTo: 'Lakshmi@luckydrivingschool.net',
     to: booking.email,
     subject: '🎉 Booking Confirmed - Lucky Driving School',
@@ -77,11 +86,15 @@ export async function sendBookingConfirmationToUser(booking: {
   }
 
   try {
+    if (!transporter) {
+      console.warn('⚠️ Email not sent - transporter not configured')
+      return
+    }
     await transporter.sendMail(mailOptions)
     console.log('✅ Booking confirmation email sent to user')
   } catch (error) {
     console.error('❌ Error sending email to user:', error)
-    throw error
+    // Don't throw error - allow booking to succeed even if email fails
   }
 }
 
@@ -98,7 +111,7 @@ export async function sendBookingNotificationToOwner(booking: {
   message: string
 }) {
   const mailOptions = {
-    from: '"Lucky Driving School System" <Lakshmi@luckydrivingschool.net>',
+    from: '"Lucky Driving School System" <info@solvixcore.com>',
     replyTo: 'Lakshmi@luckydrivingschool.net',
     to: process.env.OWNER_EMAIL || 'Lakshmi@luckydrivingschool.net',
     subject: '🚨 NEW BOOKING ALERT - Lucky Driving School',
@@ -187,11 +200,15 @@ export async function sendBookingNotificationToOwner(booking: {
   }
 
   try {
+    if (!transporter) {
+      console.warn('⚠️ Email not sent - transporter not configured')
+      return
+    }
     await transporter.sendMail(mailOptions)
     console.log('✅ Booking notification email sent to owner')
   } catch (error) {
     console.error('❌ Error sending email to owner:', error)
-    throw error
+    // Don't throw error - allow booking to succeed even if email fails
   }
 }
 
@@ -202,7 +219,7 @@ export async function sendContactConfirmationToUser(contact: {
   subject: string
 }) {
   const mailOptions = {
-    from: '"Lucky Driving School" <Lakshmi@luckydrivingschool.net>',
+    from: '"Lakshmi - Lucky Driving School" <info@solvixcore.com>',
     replyTo: 'Lakshmi@luckydrivingschool.net',
     to: contact.email,
     subject: '✉️ Message Received - Lucky Driving School',
@@ -250,11 +267,15 @@ export async function sendContactConfirmationToUser(contact: {
   }
 
   try {
+    if (!transporter) {
+      console.warn('⚠️ Email not sent - transporter not configured')
+      return
+    }
     await transporter.sendMail(mailOptions)
     console.log('✅ Contact confirmation email sent to user')
   } catch (error) {
     console.error('❌ Error sending email to user:', error)
-    throw error
+    // Don't throw error - allow contact to succeed even if email fails
   }
 }
 
@@ -267,7 +288,7 @@ export async function sendContactNotificationToOwner(contact: {
   message: string
 }) {
   const mailOptions = {
-    from: '"Lucky Driving School System" <Lakshmi@luckydrivingschool.net>',
+    from: '"Lucky Driving School System" <info@solvixcore.com>',
     replyTo: 'Lakshmi@luckydrivingschool.net',
     to: process.env.OWNER_EMAIL || 'Lakshmi@luckydrivingschool.net',
     subject: '📧 NEW CONTACT MESSAGE - Lucky Driving School',
@@ -328,10 +349,14 @@ export async function sendContactNotificationToOwner(contact: {
   }
 
   try {
+    if (!transporter) {
+      console.warn('⚠️ Email not sent - transporter not configured')
+      return
+    }
     await transporter.sendMail(mailOptions)
     console.log('✅ Contact notification email sent to owner')
   } catch (error) {
     console.error('❌ Error sending email to owner:', error)
-    throw error
+    // Don't throw error - allow contact to succeed even if email fails
   }
 }
