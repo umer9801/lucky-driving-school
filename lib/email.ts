@@ -90,8 +90,19 @@ export async function sendBookingConfirmationToUser(booking: {
       console.warn('⚠️ Email not sent - transporter not configured')
       return
     }
-    await transporter.sendMail(mailOptions)
-    console.log('✅ Booking confirmation email sent to user')
+    
+    // Wrap in Promise to ensure email is sent before serverless function ends
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error('❌ Error sending booking confirmation:', err)
+          reject(err)
+        } else {
+          console.log('✅ Booking confirmation email sent:', info.messageId)
+          resolve(info)
+        }
+      })
+    })
   } catch (error) {
     console.error('❌ Error sending email to user:', error)
     // Don't throw error - allow booking to succeed even if email fails
@@ -204,8 +215,19 @@ export async function sendBookingNotificationToOwner(booking: {
       console.warn('⚠️ Email not sent - transporter not configured')
       return
     }
-    await transporter.sendMail(mailOptions)
-    console.log('✅ Booking notification email sent to owner')
+    
+    // Wrap in Promise to ensure email is sent before serverless function ends
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error('❌ Error sending booking notification:', err)
+          reject(err)
+        } else {
+          console.log('✅ Booking notification email sent:', info.messageId)
+          resolve(info)
+        }
+      })
+    })
   } catch (error) {
     console.error('❌ Error sending email to owner:', error)
     // Don't throw error - allow booking to succeed even if email fails
@@ -271,8 +293,19 @@ export async function sendContactConfirmationToUser(contact: {
       console.warn('⚠️ Email not sent - transporter not configured')
       return
     }
-    await transporter.sendMail(mailOptions)
-    console.log('✅ Contact confirmation email sent to user')
+    
+    // Wrap in Promise to ensure email is sent before serverless function ends
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error('❌ Error sending contact confirmation:', err)
+          reject(err)
+        } else {
+          console.log('✅ Contact confirmation email sent:', info.messageId)
+          resolve(info)
+        }
+      })
+    })
   } catch (error) {
     console.error('❌ Error sending email to user:', error)
     // Don't throw error - allow contact to succeed even if email fails
@@ -353,8 +386,19 @@ export async function sendContactNotificationToOwner(contact: {
       console.warn('⚠️ Email not sent - transporter not configured')
       return
     }
-    await transporter.sendMail(mailOptions)
-    console.log('✅ Contact notification email sent to owner')
+    
+    // Wrap in Promise to ensure email is sent before serverless function ends
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error('❌ Error sending contact notification:', err)
+          reject(err)
+        } else {
+          console.log('✅ Contact notification email sent:', info.messageId)
+          resolve(info)
+        }
+      })
+    })
   } catch (error) {
     console.error('❌ Error sending email to owner:', error)
     // Don't throw error - allow contact to succeed even if email fails
