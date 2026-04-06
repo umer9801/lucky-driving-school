@@ -5,73 +5,186 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1a1a1a;
-  --card: #f8f9fa;
-  --card-foreground: #1a1a1a;
+  --foreground: #0f172a;
+  --card: #f8fafc;
+  --card-foreground: #0f172a;
   --popover: #ffffff;
-  --popover-foreground: #1a1a1a;
-  --primary: #1e3a8a;
+  --popover-foreground: #0f172a;
+  --primary: #0f172a;
   --primary-foreground: #ffffff;
-  --secondary: #dc2626;
+  --secondary: #ef4444;
   --secondary-foreground: #ffffff;
-  --muted: #e5e7eb;
-  --muted-foreground: #6b7280;
-  --accent: #059669;
+  --muted: #e2e8f0;
+  --muted-foreground: #475569;
+  --accent: #3b82f6;
   --accent-foreground: #ffffff;
-  --destructive: #dc2626;
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #f3f4f6;
-  --ring: #1e3a8a;
-  --chart-1: #1e3a8a;
-  --chart-2: #dc2626;
-  --chart-3: #059669;
+  --border: #e2e8f0;
+  --input: #f1f5f9;
+  --ring: #3b82f6;
+  --chart-1: #0f172a;
+  --chart-2: #ef4444;
+  --chart-3: #10b981;
   --chart-4: #f59e0b;
   --chart-5: #8b5cf6;
-  --radius: 0.5rem;
+  --radius: 0.75rem;
   --sidebar: #ffffff;
-  --sidebar-foreground: #1a1a1a;
-  --sidebar-primary: #1e3a8a;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #0f172a;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #dc2626;
+  --sidebar-accent: #ef4444;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: #1e3a8a;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #3b82f6;
+}
+
+/* Premium Modern Effects */
+* {
+  @apply transition-all duration-300;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Premium Button Styles */
+@layer components {
+  .btn-premium {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-base;
+    @apply bg-gradient-to-r from-primary to-primary hover:shadow-2xl;
+    @apply transform transition-all duration-300;
+    @apply hover:scale-105 active:scale-95;
+    @apply relative overflow-hidden;
+  }
+
+  .btn-premium-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-base;
+    @apply bg-gradient-to-r from-secondary to-orange-600;
+    @apply text-white hover:shadow-2xl;
+    @apply transform transition-all duration-300;
+    @apply hover:scale-105 active:scale-95;
+    @apply relative overflow-hidden;
+  }
+
+  .btn-outline-premium {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-base;
+    @apply border-2 border-white/30 backdrop-blur-md;
+    @apply text-white hover:bg-white/10;
+    @apply transform transition-all duration-300;
+    @apply hover:border-white/50;
+  }
+
+  /* Premium Cards */
+  .card-premium {
+    @apply rounded-2xl p-8 shadow-lg;
+    @apply border border-slate-100 hover:border-slate-200;
+    @apply transition-all duration-300;
+    @apply hover:shadow-2xl;
+  }
+
+  .card-glass {
+    @apply rounded-2xl p-8;
+    @apply bg-white/10 backdrop-blur-md;
+    @apply border border-white/20;
+    @apply transition-all duration-300;
+    @apply hover:bg-white/15 hover:border-white/30;
+  }
+
+  /* Premium Typography */
+  .heading-hero {
+    @apply font-serif text-5xl md:text-7xl font-bold;
+    @apply leading-tight tracking-tight;
+  }
+
+  .heading-section {
+    @apply font-serif text-4xl md:text-5xl font-bold;
+    @apply leading-tight;
+  }
+
+  .text-premium {
+    @apply text-lg leading-relaxed;
+    @apply text-slate-700 dark:text-slate-300;
+  }
+
+  /* Premium Badges */
+  .badge-premium {
+    @apply inline-flex items-center gap-2;
+    @apply px-4 py-2 rounded-full;
+    @apply bg-secondary/90 text-white;
+    @apply text-sm font-semibold uppercase tracking-wider;
+    @apply backdrop-blur-sm;
+  }
+
+  /* Premium Input */
+  .input-premium {
+    @apply w-full px-4 py-3 rounded-xl;
+    @apply bg-white border-2 border-slate-200;
+    @apply focus:border-secondary focus:outline-none;
+    @apply transition-all duration-300;
+    @apply placeholder-slate-400;
+  }
+
+  /* Glassmorphism Effect */
+  .glass-effect {
+    @apply bg-white/50 backdrop-blur-md;
+    @apply border border-white/20;
+  }
+
+  /* Premium Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary;
+    @apply bg-clip-text text-transparent;
+  }
+
+  /* Premium Divider */
+  .divider-premium {
+    @apply relative;
+  }
+
+  .divider-premium::after {
+    @apply content-[''];
+    @apply absolute inset-0;
+    @apply h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent;
+  }
 }
 
 .dark {
-  --background: #0f172a;
+  --background: #0a0e27;
   --foreground: #f1f5f9;
-  --card: #1e293b;
+  --card: #1a1f3a;
   --card-foreground: #f1f5f9;
-  --popover: #1e293b;
+  --popover: #1a1f3a;
   --popover-foreground: #f1f5f9;
   --primary: #60a5fa;
-  --primary-foreground: #0f172a;
-  --secondary: #ef4444;
-  --secondary-foreground: #0f172a;
+  --primary-foreground: #0a0e27;
+  --secondary: #ff5555;
+  --secondary-foreground: #0a0e27;
   --muted: #334155;
   --muted-foreground: #94a3b8;
-  --accent: #10b981;
-  --accent-foreground: #0f172a;
-  --destructive: #ef4444;
-  --destructive-foreground: #0f172a;
-  --border: #334155;
-  --input: #1e293b;
-  --ring: #60a5fa;
+  --accent: #3b82f6;
+  --accent-foreground: #0a0e27;
+  --destructive: #ff5555;
+  --destructive-foreground: #0a0e27;
+  --border: #2d3748;
+  --input: #1a1f3a;
+  --ring: #3b82f6;
   --chart-1: #60a5fa;
-  --chart-2: #ef4444;
+  --chart-2: #ff5555;
   --chart-3: #10b981;
   --chart-4: #fbbf24;
   --chart-5: #a78bfa;
-  --sidebar: #1e293b;
+  --sidebar: #1a1f3a;
   --sidebar-foreground: #f1f5f9;
   --sidebar-primary: #60a5fa;
-  --sidebar-primary-foreground: #0f172a;
-  --sidebar-accent: #ef4444;
-  --sidebar-accent-foreground: #0f172a;
-  --sidebar-border: #334155;
-  --sidebar-ring: #60a5fa;
+  --sidebar-primary-foreground: #0a0e27;
+  --sidebar-accent: #ff5555;
+  --sidebar-accent-foreground: #0a0e27;
+  --sidebar-border: #2d3748;
+  --sidebar-ring: #3b82f6;
 }
 
 @theme inline {

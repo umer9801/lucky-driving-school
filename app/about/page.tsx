@@ -48,10 +48,10 @@ const staggerContainer = {
 export default function About() {
   // Slideshow state
   const heroImages = [
-    '/images/about-hero.jpg',
-    '/images/hero-driving.jpg',
-    '/images/contact-hero.jpg',
-    '/images/courses-hero.jpg',
+    '/images/1.jpg',
+    '/images/2.jpg',
+    '/images/3.jpg',
+    '/images/4.jpg',
   ]
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -70,72 +70,88 @@ export default function About() {
     <>
       <Header />
       <main className="min-h-screen bg-white">
-        {/* Hero Section with Image Slideshow */}
+        {/* Premium Hero Section with Image Slideshow */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn}
           transition={{ duration: 0.6 }}
-          className="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden"
+          className="relative h-screen md:h-[700px] flex items-center justify-center overflow-hidden group"
         >
-          {/* Background Image Slideshow */}
+          {/* Background Image Slideshow with Effects */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentImageIndex}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1 }}
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 1.2 }}
               className="absolute inset-0"
             >
               <Image
                 src={heroImages[currentImageIndex]}
-                alt="About Lucky Driving School"
+                alt="About Lucky Driving School - Professional Driving Instructors"
                 fill
-                className="object-cover"
-                priority
+                className="object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
+                priority={currentImageIndex === 0}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                quality={85}
               />
             </motion.div>
           </AnimatePresence>
           
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/50"></div>
+          {/* Premium Gradient Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
           
-          {/* Content */}
-          <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+          {/* Premium Content */}
+          <div className="relative z-10 text-left text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="font-serif text-4xl md:text-6xl font-bold mb-4"
+              className="font-serif text-5xl md:text-7xl font-bold mb-6 text-balance leading-tight"
             >
-              About Lucky Driving School
+              About <span className="text-secondary">Lucky</span> Driving School
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl md:text-2xl"
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-lg md:text-xl mb-8 text-slate-200 text-pretty max-w-2xl leading-relaxed"
             >
-              Building safe, confident drivers in Edmonton since day one
+              Building safe, confident drivers in Edmonton since day one through professional instruction and proven techniques.
             </motion.p>
           </div>
 
-          {/* Slideshow Indicators */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+          {/* Enhanced Slideshow Indicators */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-20">
             {heroImages.map((_, index) => (
-              <button
+              <motion.button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.95 }}
+                className={`transition-all duration-300 rounded-full ${
                   index === currentImageIndex 
-                    ? 'bg-white w-8' 
-                    : 'bg-white/50 hover:bg-white/75'
+                    ? 'bg-white w-10 h-3' 
+                    : 'bg-white/40 hover:bg-white/70 w-3 h-3'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>
+          
+          {/* Scroll Indicator */}
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute bottom-8 right-8 text-white/60 z-20"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </motion.div>
         </motion.div>
 
         {/* Our Story - Split Section */}

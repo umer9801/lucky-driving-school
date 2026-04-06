@@ -50,27 +50,28 @@ export async function POST(request: NextRequest) {
     const contact = await Contact.create(body)
     console.log('✅ Contact created:', contact._id)
 
-    // Send emails (don't wait for them to complete)
+    // Send emails and wait for them to complete (important for serverless)
     console.log('📧 Attempting to send contact emails...')
-    Promise.all([
-      sendContactConfirmationToUser({
-        fullName: contact.fullName,
-        email: contact.email,
-        subject: contact.subject,
-      }),
-      sendContactNotificationToOwner({
-        fullName: contact.fullName,
-        email: contact.email,
-        phone: contact.phone,
-        subject: contact.subject,
-        message: contact.message,
-      }),
-    ]).then(() => {
+    try {
+      await Promise.all([
+        sendContactConfirmationToUser({
+          fullName: contact.fullName,
+          email: contact.email,
+          subject: contact.subject,
+        }),
+        sendContactNotificationToOwner({
+          fullName: contact.fullName,
+          email: contact.email,
+          phone: contact.phone,
+          subject: contact.subject,
+          message: contact.message,
+        }),
+      ])
       console.log('✅ All contact emails sent successfully')
-    }).catch((error) => {
-      console.error('⚠️ Error sending contact emails:', error.message)
-      console.error('⚠️ Contact email error details:', error)
-    })
+    } catch (emailError) {
+      console.error('⚠️ Error sending contact emails:', emailError)
+      // Still return success to user but log the error
+    }
 
     return NextResponse.json({ 
       success: true, 

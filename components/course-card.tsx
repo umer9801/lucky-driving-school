@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Check } from 'lucide-react'
+import { Check, ArrowRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 import type { Course } from '@/lib/courses-data'
 
 interface CourseCardProps {
@@ -20,49 +21,76 @@ export function CourseCard({ course, pricingTier }: CourseCardProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full hover:scale-105 hover:-translate-y-1">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-blue-600 text-white p-6">
-        <h3 className="font-serif text-xl font-bold mb-2">{course.name}</h3>
-        <p className="text-blue-100 text-sm">{course.description}</p>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 300 }}
+      className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-slate-100 hover:border-secondary/30 flex flex-col h-full"
+    >
+      {/* Premium Header */}
+      <div className="bg-gradient-to-br from-primary via-blue-700 to-blue-600 text-white p-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="relative z-10">
+          <h3 className="font-serif text-2xl font-bold mb-3">{course.name}</h3>
+          <p className="text-blue-100 text-sm leading-relaxed">{course.description}</p>
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="p-6 flex-grow">
-        <div className="mb-6">
-          <p className="text-gray-600 text-sm font-medium mb-4">Duration: {course.duration}</p>
-          <div className="text-4xl font-bold text-primary mb-1">
-            ${price}
-            <span className="text-sm text-gray-500 font-normal">/course</span>
+      {/* Premium Content */}
+      <div className="p-8 flex-grow">
+        <div className="mb-8">
+          <p className="text-slate-600 text-sm font-medium mb-4 flex items-center">
+            <svg className="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Duration: {course.duration}
+          </p>
+          <div className="flex items-baseline">
+            <span className="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              ${price}
+            </span>
+            <span className="text-slate-500 font-normal ml-2">/course</span>
           </div>
         </div>
 
-        {/* Features */}
-        <div className="space-y-3">
+        {/* Premium Features */}
+        <div className="space-y-4">
           {course.features.map((feature, index) => (
-            <div key={index} className="flex gap-3 items-start animate-fade-in" style={{
-              animationDelay: `${index * 50}ms`
-            }}>
-              <Check className="text-secondary flex-shrink-0 mt-0.5" size={20} />
-              <span className="text-gray-700 text-sm">{feature}</span>
-            </div>
+            <motion.div 
+              key={index} 
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="flex gap-3 items-start"
+            >
+              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-secondary to-orange-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Check className="text-white" size={16} />
+              </div>
+              <span className="text-slate-700 text-sm leading-relaxed">{feature}</span>
+            </motion.div>
           ))}
         </div>
       </div>
 
-      {/* CTA Buttons */}
-      <div className="p-6 border-t border-gray-100 space-y-3">
-        <button
+      {/* Premium CTA Buttons */}
+      <div className="p-8 border-t border-slate-100 space-y-3">
+        <motion.button
           onClick={handleBooking}
-          className="w-full bg-secondary text-white py-3 rounded-lg hover:bg-red-700 transition-all duration-300 font-semibold transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg relative overflow-hidden group"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full bg-gradient-to-r from-secondary to-orange-600 hover:from-red-700 hover:to-orange-700 text-white py-3 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group/btn"
         >
-          <span className="relative z-10">Book Now</span>
-          <div className="absolute inset-0 bg-red-800 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        </button>
-        <Link href="/contact" className="block text-center text-primary hover:underline font-medium text-sm hover:text-secondary transition-colors duration-300">
-          View Details
+          Book Now
+          <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+        </motion.button>
+        <Link 
+          href="/contact" 
+          className="block text-center text-primary hover:text-secondary font-semibold text-sm transition-colors duration-300 hover:underline"
+        >
+          View More Details
         </Link>
       </div>
-    </div>
+    </motion.div>
   )
 }

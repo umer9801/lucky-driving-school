@@ -50,33 +50,34 @@ export async function POST(request: NextRequest) {
     const booking = await Booking.create(body)
     console.log('✅ Booking created:', booking._id)
 
-    // Send emails (don't wait for them to complete)
+    // Send emails and wait for them to complete (important for serverless)
     console.log('📧 Attempting to send emails...')
-    Promise.all([
-      sendBookingConfirmationToUser({
-        fullName: booking.fullName,
-        email: booking.email,
-        courseName: booking.courseName,
-        preferredDate: booking.preferredDate,
-        preferredTime: booking.preferredTime,
-      }),
-      sendBookingNotificationToOwner({
-        fullName: booking.fullName,
-        email: booking.email,
-        phone: booking.phone,
-        courseName: booking.courseName,
-        preferredDate: booking.preferredDate,
-        preferredTime: booking.preferredTime,
-        experience: booking.experience,
-        licenseStatus: booking.licenseStatus,
-        message: booking.message,
-      }),
-    ]).then(() => {
+    try {
+      await Promise.all([
+        sendBookingConfirmationToUser({
+          fullName: booking.fullName,
+          email: booking.email,
+          courseName: booking.courseName,
+          preferredDate: booking.preferredDate,
+          preferredTime: booking.preferredTime,
+        }),
+        sendBookingNotificationToOwner({
+          fullName: booking.fullName,
+          email: booking.email,
+          phone: booking.phone,
+          courseName: booking.courseName,
+          preferredDate: booking.preferredDate,
+          preferredTime: booking.preferredTime,
+          experience: booking.experience,
+          licenseStatus: booking.licenseStatus,
+          message: booking.message,
+        }),
+      ])
       console.log('✅ All emails sent successfully')
-    }).catch((error) => {
-      console.error('⚠️ Error sending emails:', error.message)
-      console.error('⚠️ Email error details:', error)
-    })
+    } catch (emailError) {
+      console.error('⚠️ Error sending emails:', emailError)
+      // Still return success to user but log the error
+    }
 
     return NextResponse.json({ 
       success: true, 

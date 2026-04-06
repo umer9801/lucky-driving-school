@@ -80,62 +80,116 @@ export default function Courses() {
     <>
       <Header />
       <main className="min-h-screen bg-white">
-        {/* Hero Section - Fade In */}
+        {/* Premium Hero Section */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn}
           transition={{ duration: 0.6 }}
+          className="relative h-screen md:h-[700px] flex items-center justify-center overflow-hidden group"
         >
-          <HeroSection
-            title="Our Driving Courses"
-            subtitle="Find the perfect course to match your skills and goals"
-            backgroundImage="/images/courses-hero.jpg"
-          />
+          {/* Background Image */}
+          <motion.div
+            className="absolute inset-0"
+            initial={{ scale: 1.05 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.2 }}
+          >
+            <Image
+              src="/images/courses-hero.jpg"
+              alt="Lucky Driving School Courses - Professional Training Programs"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out"
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+              quality={85}
+            />
+          </motion.div>
+          
+          {/* Premium Gradient Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+          
+          {/* Premium Content */}
+          <div className="relative z-10 text-left text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="font-serif text-5xl md:text-7xl font-bold mb-6 text-balance leading-tight"
+            >
+              Our Professional <span className="text-secondary">Driving Courses</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-lg md:text-xl mb-8 text-slate-200 text-pretty max-w-2xl leading-relaxed"
+            >
+              Find the perfect course to match your skills and goals with our comprehensive training programs
+            </motion.p>
+          </div>
+
+          {/* Scroll Indicator */}
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute bottom-8 right-8 text-white/60 z-20"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </motion.div>
         </motion.div>
 
-
-
-        {/* Split Section - Why Choose Our Courses */}
-        <section className="py-16 md:py-24 bg-white">
+        {/* Premium About Courses Section */}
+        <section className="py-20 md:py-32 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
+          {/* Decorative Elements */}
+          <div className="absolute top-20 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -z-10"></div>
+          
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Image - Slide In Left */}
+              {/* Premium Image - Slide In Left */}
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-100px" }}
                 variants={slideInLeft}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.8 }}
+                className="group"
               >
-                <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
+                <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-blue-500/20 z-10 pointer-events-none"></div>
                   <Image
                     src="/images/hero-driving.jpg"
-                    alt="Professional driving instruction"
+                    alt="Lucky Driving School - Professional Driving Instruction"
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    quality={85}
                   />
                 </div>
               </motion.div>
 
-              {/* Text - Slide In Right */}
+              {/* Premium Text - Slide In Right */}
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-100px" }}
                 variants={slideInRight}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.8 }}
               >
-                <h2 className="font-serif text-4xl font-bold mb-6 text-primary">
-                  Why Choose Our Courses?
+                <span className="inline-block text-secondary font-bold text-sm uppercase tracking-widest mb-4">Why Our Courses</span>
+                <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6 text-primary leading-tight">
+                  Why Choose Our <span className="text-secondary">Courses</span>?
                 </h2>
-                <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                <p className="text-lg text-slate-600 mb-8 leading-relaxed">
                   At Lucky Driving School, we offer comprehensive driving programs designed to build confidence, 
-                  skill, and safety awareness. Our courses are tailored to meet the needs of every learner, 
-                  from complete beginners to experienced drivers looking to refine their skills.
+                  skill, and safety awareness. Our courses are tailored to meet the needs of every learner.
                 </p>
                 
-                {/* List items - Staggered Fade */}
+                {/* Premium List items - Staggered Fade */}
                 <motion.ul
                   initial="hidden"
                   whileInView="visible"

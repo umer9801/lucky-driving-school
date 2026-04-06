@@ -4,17 +4,25 @@ import nodemailer from 'nodemailer'
 const createTransporter = () => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
     console.warn('⚠️ Email credentials not configured. Emails will not be sent.')
+    console.warn('Missing env vars:', {
+      EMAIL_USER: !!process.env.EMAIL_USER,
+      EMAIL_PASS: !!process.env.EMAIL_PASS,
+      SMTP_HOST: !!process.env.SMTP_HOST,
+      SMTP_PORT: !!process.env.SMTP_PORT,
+    })
     return null
   }
 
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.hostinger.com',
     port: Number(process.env.SMTP_PORT) || 465,
-    secure: true, // for 465
+    secure: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) === 465 : true, // true for 465, false for other ports
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    connectionTimeout: 10000, // 10 seconds
+    socketTimeout: 10000, // 10 seconds
   })
 }
 
@@ -144,7 +152,7 @@ export async function sendBookingNotificationToOwner(booking: {
       <body>
         <div class="container">
           <div class="header">
-            <h1>🎯 New Booking Alert!</h1>
+            <h1>✓ New Booking Alert!</h1>
           </div>
           <div class="content">
             <p><strong>A new booking has been received!</strong></p>
