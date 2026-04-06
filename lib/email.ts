@@ -8,9 +8,9 @@ const createTransporter = () => {
   }
 
   return nodemailer.createTransport({
-    host: 'smtp.hostinger.com',
-    port: 465,
-    secure: true, // SSL
+    host: process.env.SMTP_HOST || 'smtp.hostinger.com',
+    port: Number(process.env.SMTP_PORT) || 465,
+    secure: true, // for 465
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
