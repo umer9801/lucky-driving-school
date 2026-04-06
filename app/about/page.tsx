@@ -1,7 +1,8 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { HeroSection } from '@/components/hero-section'
@@ -45,22 +46,96 @@ const staggerContainer = {
 }
 
 export default function About() {
+  // Slideshow state
+  const heroImages = [
+    '/images/about-hero.jpg',
+    '/images/hero-driving.jpg',
+    '/images/contact-hero.jpg',
+    '/images/courses-hero.jpg',
+  ]
+  
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      )
+    }, 3000) // Change every 3 seconds
+
+    return () => clearInterval(interval)
+  }, [heroImages.length])
+
   return (
     <>
       <Header />
       <main className="min-h-screen bg-white">
-        {/* Hero Section - Fade In */}
+        {/* Hero Section with Image Slideshow */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn}
           transition={{ duration: 0.6 }}
+          className="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden"
         >
-          <HeroSection
-            title="About Lucky Driving School"
-            subtitle="Building safe, confident drivers in Edmonton since day one"
-            backgroundImage="/images/about-hero.jpg"
-          />
+          {/* Background Image Slideshow */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentImageIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={heroImages[currentImageIndex]}
+                alt="About Lucky Driving School"
+                fill
+                className="object-cover"
+                priority
+              />
+            </motion.div>
+          </AnimatePresence>
+          
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/50"></div>
+          
+          {/* Content */}
+          <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="font-serif text-4xl md:text-6xl font-bold mb-4"
+            >
+              About Lucky Driving School
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-xl md:text-2xl"
+            >
+              Building safe, confident drivers in Edmonton since day one
+            </motion.p>
+          </div>
+
+          {/* Slideshow Indicators */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+            {heroImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentImageIndex 
+                    ? 'bg-white w-8' 
+                    : 'bg-white/50 hover:bg-white/75'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </motion.div>
 
         {/* Our Story - Split Section */}
