@@ -51,6 +51,158 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Enhanced gradient utilities */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+/* Premium glassmorphism effect */
+.glass-effect {
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Animated gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Premium button styles */
+.btn-premium {
+  @apply relative overflow-hidden bg-gradient-to-r from-secondary to-orange-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300;
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-premium:hover::before {
+  left: 100%;
+}
+
+.btn-premium-secondary {
+  @apply bg-gradient-to-r from-secondary to-orange-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300;
+}
+
+.btn-outline-premium {
+  @apply border-2 border-white/30 text-white font-semibold py-3 px-6 rounded-xl backdrop-blur-sm bg-white/10 hover:bg-white/20 hover:border-white/50 transition-all duration-300;
+}
+
+/* Premium card styles */
+.card-premium {
+  @apply bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-slate-100 hover:border-slate-200 transition-all duration-500 overflow-hidden;
+}
+
+/* Enhanced text styles */
+.heading-hero {
+  @apply text-5xl md:text-7xl font-bold leading-tight;
+}
+
+.heading-section {
+  @apply text-4xl md:text-5xl font-bold leading-tight;
+}
+
+.text-premium {
+  @apply text-lg leading-relaxed;
+}
+
+/* Premium badge styles */
+.badge-premium {
+  @apply bg-gradient-to-r from-secondary to-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium;
+}
+
+/* Premium input styles */
+.input-premium {
+  @apply bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-300;
+}
+
+/* Premium divider */
+.divider-premium {
+  @apply h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse glow effect */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+/* Enhanced focus states */
+.focus-premium:focus {
+  @apply ring-2 ring-secondary/50 border-secondary/50;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-b from-secondary to-orange-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply from-secondary/80 to-orange-600/80;
+}
+
 /* Premium Button Styles */
 @layer components {
   .btn-premium {
