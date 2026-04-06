@@ -18,8 +18,6 @@ function BookingForm() {
   const router = useRouter()
   const courseId = searchParams.get('courseId')
   
-  const selectedCourse = courses.find(c => c.id === courseId)
-
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -31,6 +29,9 @@ function BookingForm() {
     licenseStatus: 'no-license',
     specialRequests: '',
   })
+
+  // Get selected course based on formData.courseId (not URL courseId)
+  const selectedCourse = courses.find(c => c.id === formData.courseId)
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState('')
