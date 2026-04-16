@@ -105,7 +105,7 @@ function BookingForm() {
       }, 2000)
     } catch (error: any) {
       console.error('Booking error:', error)
-      setSubmitMessage(`Error: ${error.message}\n\nPlease try again or contact us directly at:\nPhone: +1 (780) 255-2999\nEmail: Lakshmi@luckydrivingschool.net`)
+      setSubmitMessage(`Error: ${error.message}\n\nPlease try again or contact us directly at:\nEmail: Lakshmi@luckydrivingschool.net`)
     } finally {
       setIsSubmitting(false)
     }
@@ -190,7 +190,7 @@ function BookingForm() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-secondary transition-colors"
-                  placeholder="+1 (780) 255-2999"
+                  placeholder="+1 (587) 712-4929"
                 />
               </div>
 
@@ -359,7 +359,7 @@ export default function Booking() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <p className="text-gray-700 mb-2">
-                  <strong>Phone:</strong> +1 (780) 255-2999
+                  <strong>Phone:</strong> +1 (587) 712-4929
                 </p>
                 <p className="text-gray-700 mb-2">
                   <strong>WhatsApp:</strong> +1 (587) 712-4929

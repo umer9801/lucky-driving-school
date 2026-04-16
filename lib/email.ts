@@ -78,8 +78,7 @@ export async function sendBookingConfirmationToUser(booking: {
             </ul>
 
             <p>If you have any questions, feel free to contact us:</p>
-            <p>📞 Phone: +1 (780) 255-2999<br>
-            📧 Email: Lakshmi@luckydrivingschool.net<br>
+            <p>📧 Email: Lakshmi@luckydrivingschool.net<br>
             💬 WhatsApp: +1 (587) 712-4929</p>
           </div>
           <div class="footer">
@@ -283,8 +282,7 @@ export async function sendContactConfirmationToUser(contact: {
             </div>
 
             <p>If you need immediate assistance, please feel free to contact us:</p>
-            <p>📞 Phone: +1 (780) 255-2999<br>
-            💬 WhatsApp: +1 (587) 712-4929</p>
+            <p>💬 WhatsApp: +1 (587) 712-4929</p>
           </div>
           <div class="footer">
             <p>Lucky Driving School<br>

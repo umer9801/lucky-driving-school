@@ -102,7 +102,7 @@ export default function Contact() {
       setTimeout(() => setSubmitted(false), 5000)
     } catch (error: any) {
       console.error('Error submitting form:', error)
-      alert(`Error: ${error.message}\n\nPlease try again or contact us directly at:\nPhone: +1 (780) 255-2999\nEmail: Lakshmi@luckydrivingschool.net`)
+      alert(`Error: ${error.message}\n\nPlease try again or contact us directly at:\nEmail: Lakshmi@luckydrivingschool.net`)
     } finally {
       setLoading(false)
     }
@@ -176,10 +176,6 @@ export default function Contact() {
                 </motion.div>
                 <h3 className="font-serif text-xl font-bold mb-2 text-foreground">Phone</h3>
                 <p className="text-gray-600 text-sm">
-                  <a href="tel:+17802552999" className="hover:text-primary font-semibold transition-colors duration-200">
-                    +1 (780) 255-2999
-                  </a>
-                  <br />
                   <a href="tel:+15877124929" className="hover:text-primary font-semibold transition-colors duration-200">
                     +1 (587) 712-4929
                   </a>
@@ -453,26 +449,10 @@ export default function Contact() {
                 >
                   <h3 className="font-serif text-xl font-bold mb-4">Quick Contact Options</h3>
                   <div className="space-y-3">
-                    <div>
-                      <p className="text-sm text-blue-100">Call or Text Us</p>
-                      <p className="text-lg font-semibold">
-                        <a href="tel:+17802552999" className="hover:text-secondary transition-colors duration-200">
-                          +1 (780) 255-2999
-                        </a>
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-blue-100">Email Us</p>
-                      <p className="text-lg font-semibold">
-                        <a href="mailto:Lakshmi@luckydrivingschool.net" className="hover:text-secondary transition-colors duration-200">
-                          Lakshmi@luckydrivingschool.net
-                        </a>
-                      </p>
-                    </div>
                     <div className="pt-4 border-t border-blue-400">
                       <p className="text-sm text-blue-100 mb-2">Chat with us on WhatsApp</p>
                       <motion.a
-                        href="https://wa.me/17802552999"
+                        href="https://wa.me/15877124929"
                         target="_blank"
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.3)" }}
