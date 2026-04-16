@@ -155,6 +155,9 @@ export function Footer() {
           <p className="text-center text-slate-400 text-xs sm:text-sm">
             &copy; {new Date().getFullYear()} Lucky Driving School. All rights reserved.
           </p>
+          <p className="text-center text-slate-400 text-xs mt-2">
+            Designed by <a href="https://www.solvixcore.com" target="_blank" rel="noopener noreferrer" className="text-secondary hover:text-primary transition-colors duration-300 font-semibold">Solvix Core</a>
+          </p>
         </motion.div>
       </div>
     </footer>

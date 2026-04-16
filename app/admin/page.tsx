@@ -20,11 +20,11 @@ export default function AdminLogin() {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 500))
 
-    if (password === 'admin123') {
+    if (password === 'lucky1@') {
       setAdminSession()
       router.push('/admin/dashboard')
     } else {
-      setError('Invalid password. Hint: Try "admin123"')
+      setError('Invalid password')
     }
 
     setLoading(false)
@@ -99,13 +99,6 @@ export default function AdminLogin() {
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </form>
-
-          {/* Footer Note */}
-          <div className="mt-8 pt-6 border-t border-gray-100">
-            <p className="text-xs text-gray-500 text-center">
-              Demo password: <span className="font-mono bg-gray-100 px-2 py-1 rounded">admin123</span>
-            </p>
-          </div>
         </div>
 
         {/* Features */}
