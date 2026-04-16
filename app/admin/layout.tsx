@@ -81,6 +81,7 @@ export default function AdminLayout({
             { href: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
             { href: '/admin/dashboard/bookings', label: 'Bookings', icon: '📋' },
             { href: '/admin/dashboard/contacts', label: 'Contacts', icon: '📧' },
+            { href: '/admin/dashboard/reviews', label: 'Reviews', icon: '⭐' },
           ].map((item) => (
             <Link
               key={item.href}

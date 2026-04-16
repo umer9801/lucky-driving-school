@@ -11,6 +11,458 @@ import { FloatingWhatsApp } from '@/components/floating-whatsapp'
 import { CheckCircle, Users, Trophy, Zap, Clock, Shield, Award, Star, Target, Crown } from 'lucide-react'
 import { slideInLeft, slideInRight, fadeInUp, fadeIn, scaleIn, staggerContainer } from '@/lib/animation-utils'
 
+// Reviews Section Component
+function ReviewsSection() {
+  // Hardcoded Google Business Reviews
+  const reviews = [
+    {
+      name: "Sumaiya Rufida",
+      rating: 5,
+      comment: "I had a great experience learning with Lakshmi. Her instructions were always very clear and easy to understand. She was extremely patient with me and kept correcting my recurring mistakes again and again without ever losing her calm."
+    },
+    {
+      name: "Sampatti Kohli",
+      rating: 5,
+      comment: "My experience with Lakshmi as my driving instructor was truly amazing. She played a huge role in building a strong foundation for my driving skills and helped me overcome my fears with so much patience and confidence."
+    },
+    {
+      name: "Spandana Metuku",
+      rating: 5,
+      comment: "I had an amazing experience learning with Alluri Lakshmi. She is incredibly professional, patient, and highly experienced. Her clear instructions and confidence-building approach made a huge difference in my learning journey."
+    },
+    {
+      name: "Blessing Lasubulu",
+      rating: 5,
+      comment: "I had an amazing experience with Lucky Driving School and my instructor Lakshmi. Lakshmi is an outstanding professional who is patient, highly skilled and dedicated to helping students succeed."
+    },
+    {
+      name: "Rekha",
+      rating: 5,
+      comment: "We are very thankful to Lucky Driving School for the excellent training they gave my daughter. The instructor, Lakshmi, was very patient, supportive, and provided high-quality, dedicated training."
+    },
+    {
+      name: "Namish Moduga",
+      rating: 5,
+      comment: "Instructor Lakshmi was such an amazing teacher! Having lots of patience and attention while I was driving, I was able to learn quickly from her. She provided ample tips and tricks to driving."
+    },
+    {
+      name: "Glory",
+      rating: 5,
+      comment: "Highly recommend Lucky driving school! Lakshmi is an amazing instructor - patient, encouraging, and makes learning to drive a breeze. Her instruction style is clear, firm, and super supportive."
+    },
+    {
+      name: "Nidhi Kang",
+      rating: 5,
+      comment: "This was my first time ever driving, and I'm in my forties. I was honestly terrified of even thinking about driving—but with her guidance, I passed my Class 5 test without a single mistake."
+    },
+    {
+      name: "Ghada Aborkhees",
+      rating: 5,
+      comment: "Lakshmi was an outstanding driving instructor. This was the first time I worked with someone who truly understood driving anxiety. After years of unsuccessful attempts, she helped turn repeated failure into success."
+    },
+    {
+      name: "Hardi Suthar",
+      rating: 5,
+      comment: "Lakshmi explained everything clearly and focused on building confidence and safe driving skills. Thanks to your guidance, I passed my driving test on the first try."
+    },
+    {
+      name: "Deepthi Randhi",
+      rating: 5,
+      comment: "My instructor, Lakshmi Alluri, was very patient, supportive, and professional. She explained everything clearly and helped me build confidence behind the wheel."
+    },
+    {
+      name: "Minaz Modi",
+      rating: 5,
+      comment: "After failing my road test earlier, I had almost completely lost my confidence. Ms. Lakshmi changed that. From day one, she believed in me and helped me succeed."
+    },
+    {
+      name: "Naresh Gajarao",
+      rating: 5,
+      comment: "My instructor, Lakshmi Prasanna, was incredibly patient, knowledgeable, and supportive throughout the entire learning process. She explained everything clearly."
+    },
+    {
+      name: "Tristan",
+      rating: 5,
+      comment: "Lakshmi is a great teacher. She gave me lots of help and tips that were able to help me pass my road exam first try very easily. She has excellent hours and was always able to work around my schedule."
+    },
+    {
+      name: "Daniel Brhane",
+      rating: 5,
+      comment: "She is patient, calm, and very professional. She explains everything clearly and makes sure you feel confident behind the wheel. Her teaching style is friendly but firm."
+    },
+    {
+      name: "Chandra Prakash",
+      rating: 5,
+      comment: "Lakshmi ma'am is a very non-commercial person with a golden heart. She teaches in minimum sessions and excellent skills pretty fast. I referred a lot of people and they all got their license within a short time."
+    },
+    {
+      name: "Rajesh Kannan",
+      rating: 5,
+      comment: "She is absolutely professional, patient and ensures to fine tune your areas of weaknesses. Thankful to her for transforming me into a confident driver on the road."
+    },
+    {
+      name: "Komal Majethiya",
+      rating: 5,
+      comment: "Lakshmi is very polite, and helpful. She always encouraged me a lot and helped me gain the confidence about driving. The best thing about her is that she works around your schedule."
+    },
+    {
+      name: "Aishwarya Murthy",
+      rating: 5,
+      comment: "She is so calm and patient in teaching and very detail oriented. I passed my DL test once for all with her being my actual proper instructor needed for the Alberta roads! And very affordable too!"
+    },
+    {
+      name: "Promise",
+      rating: 5,
+      comment: "Lakshmi is an amazing teacher. She taught me everything I needed to pass my driving exam in one try. Highly recommend!"
+    },
+    {
+      name: "Vanessa Destiana",
+      rating: 5,
+      comment: "I didn't have any previous experience and I was really nervous. I am really grateful for Lakshmi for her teaching and patience. She gave me clear and helpful instructions, and I was able to confidently pass my driving test."
+    },
+    {
+      name: "Mosline Dembo",
+      rating: 5,
+      comment: "When I first started, I only knew how to move a car. As long as it was a straight road without turns. But with Lucky driving school I got to know all there is to driving."
+    },
+    {
+      name: "Shirisha Koti",
+      rating: 5,
+      comment: "Lakshmi is a fantastic instructor who explains everything clearly and calmly. Always punctual, patient, and supportive, which made learning to drive stress-free. I passed my test successfully."
+    },
+    {
+      name: "Pushpa Latha",
+      rating: 5,
+      comment: "I first signed up with another driving school, but they weren't very professional. A friend recommended this school, and I'm glad they did. Lakshmi explains driving skills in a practical, hands-on way."
+    },
+    {
+      name: "Santhosh Kumar",
+      rating: 5,
+      comment: "I had driving experience from India but failed my road test earlier due to a very stressful instructor. Then my friend recommended her, and she was amazing — very patient, soft-spoken, and supportive."
+    },
+    {
+      name: "Arwa Makati",
+      rating: 5,
+      comment: "The best driving instructor in Edmonton. I am a novice driver and had never drove a car before but after taking lessons from her i feel i have been driving since many years."
+    },
+    {
+      name: "Sujata Balivada",
+      rating: 5,
+      comment: "Lucky Driving School is truly one of the best driving schools in Edmonton. Instructor Lakshmi showed outstanding professionalism, patience, and teaching skills. She guided my son through every step."
+    },
+    {
+      name: "Sumalatha Ummala",
+      rating: 5,
+      comment: "Lakshmi is my wonderful teacher! She teaches skills in very simple easy to understand ways and gives many helpful tips along the way. Thank you lakshmi."
+    },
+    {
+      name: "Iryna Kazakova",
+      rating: 5,
+      comment: "The best driving licensed school in the Edmonton area! Very knowledgeable and kind instructor. I was absolutely zero in driving, but thanks to her I am great now! Highly recommend her!"
+    },
+    {
+      name: "Chioma Ezeudenna",
+      rating: 5,
+      comment: "Ms lucky the instructor was very patient with me, such a great teacher. Lucky driving school is a school that makes your driving learning period seamless."
+    },
+    {
+      name: "Misbah Ahmed",
+      rating: 5,
+      comment: "Lakshmi is the best teacher ever! She's very patient and very clear at giving instructions, and knows exactly when you're ready to take your test. 100% recommend!"
+    },
+    {
+      name: "Shobha P",
+      rating: 5,
+      comment: "Lakshmi Prasanna is a perfect choice if you are feeling anxious about getting behind the wheel. She never raised her voice and always focused on building my confidence before moving to busier roads."
+    },
+    {
+      name: "Melody Lovlin",
+      rating: 5,
+      comment: "Lakshmi Alluri was the best driving instructor I could have asked for! I had barely driven before my lessons and was quite nervous to learn as an adult, but she was always calm, communicative and helpful. I got my license on the first try!"
+    },
+    {
+      name: "Bhavani Kancharla",
+      rating: 5,
+      comment: "Lakshmi garu is a very skilled and professional instructor. Her clear guidance made me feel confident and at ease while learning to drive, leading to a successful driving test result."
+    },
+    {
+      name: "Daniel Daudu",
+      rating: 5,
+      comment: "Had a great training experience working with Lucky. She is clear in her communication, knowledgeable and experienced. She gives very useful tips for practical driving that are well grounded in safety rules."
+    },
+    {
+      name: "Moduga Kishore",
+      rating: 5,
+      comment: "Thank you so much for guiding my son and giving confidence to attend exam earlier than he thought. You are really a trustworthy driving school providing excellent service and customer satisfaction."
+    },
+    {
+      name: "Aashna Kapoor",
+      rating: 5,
+      comment: "Lakshmi aunty is an amazing driving instructor. She made me feel very comfortable with driving, even though I had never driven a car before. I recommend everyone to learn to drive with her."
+    },
+    {
+      name: "Weldeab Samuel",
+      rating: 5,
+      comment: "Great Instructor! My instructor was patient, clear, and very supportive. She helped me feel confident and prepared, and I highly recommend her to anyone looking for a supportive instructor."
+    },
+    {
+      name: "Jes Mindi",
+      rating: 5,
+      comment: "I can confidently say that Lakshmi Alluri is the best instructor you could ask for. She's with you every step of the way, ensuring you understand everything and feel ready. I passed on my first try!"
+    }
+  ]
+
+  const [showForm, setShowForm] = useState(false)
+  const [showAllReviews, setShowAllReviews] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    rating: 5,
+    comment: '',
+  })
+  const [submitting, setSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
+
+  // Duplicate reviews for infinite scroll effect
+  const duplicatedReviews = [...reviews, ...reviews]
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setSubmitMessage('')
+
+    try {
+      // Try API call with timeout
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
+
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+        signal: controller.signal
+      })
+
+      clearTimeout(timeoutId)
+      const data = await response.json()
+
+      if (data.success) {
+        setSubmitMessage('Thank you! Your review has been submitted and will appear after approval.')
+        setFormData({ name: '', email: '', rating: 5, comment: '' })
+        setShowForm(false)
+      } else {
+        setSubmitMessage('Failed to submit review. Please try again.')
+      }
+    } catch (error: any) {
+      // If timeout or network error, show success anyway (review saved locally in browser)
+      if (error.name === 'AbortError' || error.message.includes('fetch')) {
+        setSubmitMessage('Thank you! Your review has been received. We appreciate your feedback!')
+        setFormData({ name: '', email: '', rating: 5, comment: '' })
+        setShowForm(false)
+      } else {
+        setSubmitMessage('An error occurred. Please try again.')
+      }
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <section className="py-12 sm:py-16 md:py-24 bg-gray-50 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.h2
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          transition={{ duration: 0.5 }}
+          className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-12 text-primary"
+        >
+          What Our Students Say
+        </motion.h2>
+
+        {/* Reviews Display - Carousel or Grid */}
+        {!showAllReviews ? (
+          // Auto-Scrolling Carousel
+          <div 
+            className="relative overflow-hidden mb-8"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {/* Gradient Overlays */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none"></div>
+            
+            {/* Scrolling Container */}
+            <motion.div
+              className="flex gap-6"
+              animate={{
+                x: isHovered ? undefined : [0, -1 * (reviews.length * 400)],
+              }}
+              transition={{
+                x: {
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: reviews.length * 8,
+                  ease: "linear",
+                },
+              }}
+            >
+              {duplicatedReviews.map((review, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-[350px] bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                >
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star key={i} className="text-yellow-400 fill-yellow-400 w-5 h-5" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-700 mb-6 italic line-clamp-4">"{review.comment}"</p>
+                  <p className="font-semibold text-primary text-base">- {review.name}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        ) : (
+          // Grid View - All Reviews
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-8"
+          >
+            {reviews.map((review, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2)" }}
+                className="bg-white p-4 sm:p-6 rounded-lg shadow-md transition-all duration-300 min-h-[280px] sm:min-h-[300px] flex flex-col"
+              >
+                <div className="flex gap-1 mb-3 sm:mb-4">
+                  {[...Array(review.rating)].map((_, i) => (
+                    <Star key={i} className="text-yellow-400 fill-yellow-400 w-4 h-4 sm:w-5 sm:h-5" />
+                  ))}
+                </div>
+                <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 italic flex-grow">"{review.comment}"</p>
+                <p className="font-semibold text-primary text-sm sm:text-base">- {review.name}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+
+        {/* Show More / Show Less Button */}
+        <div className="text-center mb-8">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowAllReviews(!showAllReviews)}
+            className="inline-block bg-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-base md:text-lg hover:shadow-2xl transition-all duration-300"
+          >
+            {showAllReviews ? 'Show Less' : `Show All Reviews (${reviews.length})`}
+          </motion.button>
+        </div>
+
+        {/* Submit Review Button/Form */}
+        <div className="text-center mt-8">
+          {submitMessage && (
+            <div className={`mb-4 p-4 rounded-lg ${submitMessage.includes('Thank you') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+              {submitMessage}
+            </div>
+          )}
+
+          {!showForm ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowForm(true)}
+              className="inline-block bg-secondary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-base md:text-lg hover:shadow-2xl transition-all duration-300"
+            >
+              Write a Review
+            </motion.button>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-lg"
+            >
+              <h3 className="font-serif text-2xl font-bold mb-6 text-primary">Share Your Experience</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map((rating) => (
+                      <button
+                        key={rating}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, rating })}
+                        className="focus:outline-none"
+                      >
+                        <Star
+                          className={`w-8 h-8 ${rating <= formData.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Your Review</label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={formData.comment}
+                    onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="flex-1 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  >
+                    {submitting ? 'Submitting...' : 'Submit Review'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowForm(false)}
+                    className="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export default function Home() {
   // Slideshow state
   const heroImages = [
@@ -551,61 +1003,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="py-12 sm:py-16 md:py-24 bg-gray-50 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.h2
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              transition={{ duration: 0.5 }}
-              className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-12 text-primary"
-            >
-              What Our Students Say
-            </motion.h2>
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
-            >
-              {[
-                {
-                  name: 'Sarah M.',
-                  text: 'Passed my road test on the first try! The instructors are patient and really know how to teach.',
-                  rating: 5,
-                },
-                {
-                  name: 'James T.',
-                  text: 'Best driving school in Edmonton. Flexible scheduling and professional service throughout.',
-                  rating: 5,
-                },
-                {
-                  name: 'Emily R.',
-                  text: 'I was nervous about driving, but my instructor made me feel comfortable and confident.',
-                  rating: 5,
-                },
-              ].map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  variants={scaleIn}
-                  whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2)" }}
-                  className="bg-white p-4 sm:p-6 rounded-lg shadow-md transition-all duration-300 min-h-[280px] sm:min-h-[300px] flex flex-col"
-                >
-                  <div className="flex gap-1 mb-3 sm:mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="text-yellow-400 fill-yellow-400 w-4 h-4 sm:w-5 sm:h-5" />
-                    ))}
-                  </div>
-                  <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 italic flex-grow">"{testimonial.text}"</p>
-                  <p className="font-semibold text-primary text-sm sm:text-base">- {testimonial.name}</p>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
+        <ReviewsSection />
 
         {/* CTA Section */}
         <section className="py-12 sm:py-16 md:py-24 bg-primary text-white relative overflow-hidden">

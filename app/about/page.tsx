@@ -20,6 +20,7 @@ export default function About() {
   ]
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [isStudentGalleryHovered, setIsStudentGalleryHovered] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -418,6 +419,93 @@ export default function About() {
                   <p className="text-lg text-blue-100">{stat.label}</p>
                 </motion.div>
               ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Success Stories Gallery Section - Auto-Scrolling Carousel */}
+        <section className="py-16 md:py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-12"
+            >
+              <h2 className="font-serif text-4xl font-bold text-primary mb-4">
+                Our Success Stories
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Meet some of our proud graduates who successfully earned their driver's license with Lucky Driving School
+              </p>
+            </motion.div>
+
+            {/* Auto-Scrolling Carousel */}
+            <div 
+              className="relative overflow-hidden"
+              onMouseEnter={() => setIsStudentGalleryHovered(true)}
+              onMouseLeave={() => setIsStudentGalleryHovered(false)}
+            >
+              {/* Gradient Overlays */}
+              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+              
+              {/* Scrolling Container */}
+              <motion.div
+                className="flex gap-6"
+                animate={{
+                  x: isStudentGalleryHovered ? undefined : [0, -1 * (4 * 320)],
+                }}
+                transition={{
+                  x: {
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    duration: 20,
+                    ease: "linear",
+                  },
+                }}
+              >
+                {/* Duplicate images for infinite scroll */}
+                {[...Array(3)].map((_, duplicateIndex) => (
+                  [5, 6, 7, 8].map((item, index) => (
+                    <div
+                      key={`${duplicateIndex}-${index}`}
+                      className="flex-shrink-0 w-[300px] relative group overflow-hidden rounded-lg shadow-lg aspect-square bg-gray-100 cursor-pointer"
+                    >
+                      <Image
+                        src={`/images/students/${item}.jpeg`}
+                        alt={`Success story - Student ${item}`}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      
+                      {/* Overlay with student info */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <div className="text-white">
+                          <p className="font-semibold text-sm">Proud Graduate</p>
+                          <p className="text-xs text-gray-300">Licensed Driver ✓</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Success Message */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ delay: 0.3 }}
+              className="mt-12 text-center"
+            >
+              <p className="text-gray-600 text-lg">
+                Join our growing family of successful drivers! 🎉
+              </p>
             </motion.div>
           </div>
         </section>
