@@ -457,24 +457,6 @@ export default function Home() {
                       <p className="text-slate-500 text-xs sm:text-sm font-medium">{pkg.duration}</p>
                     </div>
                     
-                    {/* Premium CTA Button */}
-                    <motion.button
-                      whileHover={{ x: 4 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="inline-flex items-center justify-between gap-2 text-secondary font-bold hover:text-secondary/70 transition-all duration-300 group/btn min-h-[44px]"
-                    >
-                      <span className="text-sm sm:text-base">Explore Package</span>
-                      <motion.svg 
-                        className="w-4 sm:w-5 h-4 sm:h-5" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                        animate={{ x: [0, 4, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </motion.svg>
-                    </motion.button>
                   </div>
                   
                   {/* Bottom Accent Line */}
