@@ -215,6 +215,7 @@ function ReviewsSection() {
   const [showForm, setShowForm] = useState(false)
   const [showAllReviews, setShowAllReviews] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [dbReviews, setDbReviews] = useState<any[]>([])
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -224,8 +225,34 @@ function ReviewsSection() {
   const [submitting, setSubmitting] = useState(false)
   const [submitMessage, setSubmitMessage] = useState('')
 
-  // Duplicate reviews for infinite scroll effect
-  const duplicatedReviews = [...reviews, ...reviews]
+  // Fetch approved reviews from database on mount
+  useEffect(() => {
+    const fetchDbReviews = async () => {
+      try {
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 5000)
+
+        const response = await fetch('/api/reviews', { signal: controller.signal })
+        clearTimeout(timeoutId)
+        
+        if (response.ok) {
+          const data = await response.json()
+          if (data.success && data.reviews) {
+            setDbReviews(data.reviews)
+          }
+        }
+      } catch (error) {
+        // Silently fail - will just show hardcoded reviews
+        console.log('Using hardcoded reviews only')
+      }
+    }
+
+    fetchDbReviews()
+  }, [])
+
+  // Combine hardcoded + database reviews
+  const allReviews = [...reviews, ...dbReviews]
+  const duplicatedReviews = [...allReviews, ...allReviews]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -298,13 +325,13 @@ function ReviewsSection() {
             <motion.div
               className="flex gap-6"
               animate={{
-                x: isHovered ? undefined : [0, -1 * (reviews.length * 400)],
+                x: isHovered ? undefined : [0, -1 * (allReviews.length * 400)],
               }}
               transition={{
                 x: {
                   repeat: Infinity,
                   repeatType: "loop",
-                  duration: reviews.length * 8,
+                  duration: allReviews.length * 8,
                   ease: "linear",
                 },
               }}
@@ -333,7 +360,7 @@ function ReviewsSection() {
             transition={{ duration: 0.5 }}
             className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-8"
           >
-            {reviews.map((review, index) => (
+            {allReviews.map((review, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -362,7 +389,7 @@ function ReviewsSection() {
             onClick={() => setShowAllReviews(!showAllReviews)}
             className="inline-block bg-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-base md:text-lg hover:shadow-2xl transition-all duration-300"
           >
-            {showAllReviews ? 'Show Less' : `Show All Reviews (${reviews.length})`}
+            {showAllReviews ? 'Show Less' : `Show All Reviews (${allReviews.length})`}
           </motion.button>
         </div>
 
