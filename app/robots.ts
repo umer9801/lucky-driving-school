@@ -8,7 +8,13 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: ['/api/', '/admin/'],
       },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        disallow: ['/api/', '/admin/'],
+      },
     ],
     sitemap: 'https://www.luckydrivingschool.net/sitemap.xml',
+    host: 'https://www.luckydrivingschool.net',
   }
 }

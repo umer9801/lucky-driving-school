@@ -2,36 +2,35 @@ import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.luckydrivingschool.net'
-  const lastModified = new Date()
 
   return [
     {
       url: baseUrl,
-      lastModified,
+      lastModified: '2025-07-15',
       changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified,
+      lastModified: '2025-07-15',
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/courses`,
-      lastModified,
+      lastModified: '2025-07-15',
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified,
+      lastModified: '2025-07-15',
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/booking`,
-      lastModified,
+      lastModified: '2025-07-15',
       changeFrequency: 'weekly',
       priority: 0.9,
     },

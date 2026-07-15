@@ -1,16 +1,35 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About Us | Certified Driving Instructors in Edmonton, Alberta',
-  description: 'Learn about Lucky Driving School — Edmonton\'s most trusted driving school with 10+ years of experience, Alberta Transportation approved instructors, and a 95% first-attempt road test pass rate.',
+  title: 'About Us | Certified Female Driving Instructor Edmonton — Lucky Driving School',
+  description: 'Meet Lakshmi Alluri — Edmonton\'s most trusted certified female driving instructor. 10+ years experience, 500+ students trained, 95% Class 5 road test pass rate. Learn why students across Edmonton choose Lucky Driving School.',
+  keywords: [
+    'about Lucky Driving School Edmonton',
+    'certified driving instructor Edmonton',
+    'female driving instructor Edmonton',
+    'Lakshmi driving instructor Edmonton',
+    'patient driving instructor Edmonton',
+    'best driving instructor Edmonton',
+    'certified driving school Alberta',
+    'Alberta Transportation approved driving school',
+    'experienced driving instructor Edmonton',
+  ],
   alternates: {
     canonical: 'https://www.luckydrivingschool.net/about',
   },
   openGraph: {
-    title: 'About Lucky Driving School | Certified Driving Instructors in Edmonton',
-    description: 'Discover why 500+ students trust Lucky Driving School in Edmonton, Alberta. Meet our certified, patient instructors and learn about our proven teaching methods.',
+    title: 'About Lucky Driving School | Certified Female Driving Instructor Edmonton',
+    description: 'Meet Lakshmi Alluri — Edmonton\'s most trusted certified female driving instructor. 10+ years experience, 500+ students trained, 95% Class 5 road test pass rate.',
     url: 'https://www.luckydrivingschool.net/about',
     type: 'website',
+    images: [
+      {
+        url: 'https://www.luckydrivingschool.net/images/about-hero.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Lucky Driving School Edmonton - About Us',
+      },
+    ],
   },
 }
 

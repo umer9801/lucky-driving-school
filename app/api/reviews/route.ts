@@ -13,10 +13,8 @@ export async function GET() {
     return NextResponse.json({ success: true, reviews })
   } catch (error) {
     console.error('Error fetching reviews:', error)
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch reviews' },
-      { status: 500 }
-    )
+    // Return empty reviews instead of 500 so page still loads
+    return NextResponse.json({ success: true, reviews: [] })
   }
 }
 
