@@ -107,10 +107,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/icon-light-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/images/logo.png', sizes: '32x32', type: 'image/png' },
       { url: '/images/logo.png', sizes: '192x192', type: 'image/png' },
+      { url: '/images/logo.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: '/apple-icon.png',
+    apple: '/images/logo.png',
+    shortcut: '/images/logo.png',
   },
   category: 'Education',
   classification: 'Driving School',
